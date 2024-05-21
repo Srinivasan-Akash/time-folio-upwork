@@ -1,0 +1,61 @@
+.navbar-home {
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: "Budokan Rounded";
+  padding: 1em;
+  max-width: 90rem;
+  margin: auto;
+  line-height: 1;
+
+  .logo {
+    h2 {
+        font-size: 30px;
+    }
+  }
+
+  .links {
+    a {
+      margin-left: 2em;
+      color: #afa8a8;
+      font-size: 18px;
+      text-decoration: none;
+    }
+
+    a:hover {
+        color: #fff;
+        transition: all .5s ease;
+    }
+
+    a:not(:hover) {
+        transition: all .5s ease;
+        color: #afa8a8;
+    }
+  }
+
+  .btns {
+    button {
+        font-size: 18px;
+        background: #28282b;
+        color: #afa8a8;
+        font-family: "Budokan Rounded";
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 0.5em 1em;
+        margin: 0;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        transition:  all .5s ease;
+    }
+
+    button:not(:hover) {
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        transition:  all .5s ease;
+    }
+  }
+}

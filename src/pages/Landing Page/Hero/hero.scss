@@ -1,0 +1,41 @@
+#particles-js {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.hero {
+  height: 100vh;
+  h2 {
+    font-size: 5rem;
+    text-align: center;
+    margin: auto;
+    line-height: 1;
+    font-family: "bungee";
+    max-width: 80%;
+
+    color: #f8f9fb;
+    /* background: linear-gradient(90deg, #de164f, #afa8a8 50%); */
+    /* -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent; */
+
+    background: linear-gradient(90deg, #0e1619, #afa8a8 50%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    margin-top: 0.5em;
+    margin-bottom: .25em;
+  }
+
+  p {
+    color: #afa8a8;
+    font-size: 2rem;
+    margin: auto;
+    max-width: 80%;
+    text-align: center;
+    font-family: 'budokan rounded';
+  }
+}
