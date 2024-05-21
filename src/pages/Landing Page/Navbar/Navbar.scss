@@ -36,9 +36,7 @@
 
   .btns {
     button {
-        font-size: 18px;
         background: #28282b;
-        color: #afa8a8;
         font-family: "Budokan Rounded";
         backdrop-filter: blur(16px);
         border: 1px solid rgba(255, 255, 255, 0.08);
@@ -46,6 +44,12 @@
         margin: 0;
         border-radius: 5px;
         cursor: pointer;
+
+        a {
+          color: #afa8a8;
+          font-size: 18px;
+          text-decoration: none;
+        }
     }
 
     button:hover {
