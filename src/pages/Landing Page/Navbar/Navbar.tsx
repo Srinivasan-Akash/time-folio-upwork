@@ -13,6 +13,7 @@ export default function Navbar() {
 
         <a href="#">Pricing</a>
         <a href="#">FAQ</a>
+        <a href="#">Testimonials</a>
         <a href="#">Contact Us</a>
       </div>
 

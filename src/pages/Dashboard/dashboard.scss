@@ -1,0 +1,175 @@
+.dashboard {
+  display: flex;
+margin: auto;
+  width: 100%;
+  .sidebar {
+    width: 25%;
+    height: 100vh;
+    background: #232323;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7),
+      -5px -5px 10px rgba(255, 255, 255, 0.05);
+    font-family: "budokan rounded";
+    color: #fff;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 1em;
+
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    // flex-direction: column;
+
+    .planets {
+      background: #0e0e11;
+      padding: 0.8em 1em;
+      width: 100%;
+      border-radius: 15px;
+      overflow-y: auto;
+      min-height: 80vh;
+
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7),
+        -5px -5px 10px rgba(255, 255, 255, 0.05);
+      .options {
+        background: #fff;
+        color: #000;
+        cursor: pointer;
+        padding: 0.8em 1em;
+        border-radius: 5px;
+        font-size: 1rem;
+        font-family: sans-serif;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 0.8em;
+        // display: flex;
+        // align-items: center;
+        // justify-content: space-between;
+        h2 {
+          font-size: 1.2rem;
+        }
+      }
+      .planet {
+        background: #232323;
+        padding: 0.8em 1em;
+        border-radius: 5px;
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7),
+        -5px -5px 10px rgba(255, 255, 255, 0.05);
+        font-family: sans-serif;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-top: 0.8em;
+
+        h3 {
+            font-size: 1rem;
+
+        }
+      }
+
+      .planet:hover {
+        background: #afa8a8;
+        transition: all .5s ease;
+        color: #000;
+        cursor: pointer;
+        scale: 1.035;
+    }
+
+    .planet:not(:hover) {
+        background: #232323;
+        transition: all .5s ease;
+        color: #fff;
+        cursor: pointer;
+    }
+
+      .planet:first-child {
+        margin-top: 1em;
+      }
+    }
+
+    button {
+      margin: 1em;
+      padding: 0.8em 1em;
+      width: 100%;
+      border-radius: 10px;
+      font-family: sans-serif;
+      font-weight: 800;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5em;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7),
+        -5px -5px 10px rgba(255, 255, 255, 0.05);
+      cursor: pointer;
+      svg {
+      }
+    }
+  }
+
+  .main {
+    width: 75%;
+    font-family: sans-serif;
+    nav {
+      width: 100%;
+      height: fit-content;
+      background: #232323;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7),
+        -5px -5px 10px rgba(255, 255, 255, 0.05);
+      color: #fff;
+      padding: 0.8em 2em;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      button {
+        background: #fff;
+        color: #000;
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7),
+        -5px -5px 10px rgba(255, 255, 255, 0.05);
+        cursor: pointer;
+        padding: 0.5em 1em;
+        border-radius: 5px;
+        font-size: 1rem;
+        font-family: sans-serif;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 700;
+        gap: 1em;
+        h2 {
+          font-size: 1rem;
+        }
+      }
+    }
+
+    section {
+        max-width: 1200px;
+        height: 90%;
+        // background: red;
+        
+        padding: 2em;
+        display: flex;
+        gap: 1em;
+        overflow-x: scroll;
+
+        .card {
+            height: 100%;
+            min-width: 300px;
+            box-shadow: 5px 5px 10px rgb(35, 35, 35, 0.7),
+            -5px -5px 10px rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            
+            background: pink;
+        }
+    }
+  }
+}

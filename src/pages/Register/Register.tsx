@@ -1,14 +1,31 @@
 // @ts-nocheck
 import { useEffect, useState } from "react";
-import "./signin.scss";
+import "./register.scss";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ID } from "appwrite";
+import { useNavigate } from "react-router-dom";
+import { account } from "../../appwrite/appwrite.config";
+import { Link } from "react-router-dom";
 
-export default function Login() {
+export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate()
 
+  useEffect(() => {
+    async function getAuthStatus() {
+      const user = await account.get();
+      console.log(user);
+
+      if (Object.keys(user).length !== 0) {
+        navigate("/dashboard");
+      }
+    }
+
+    getAuthStatus();
+  });
+  
   useEffect(() => {
     //Select CanvasHTML and context
     const canvas = document.getElementById("Stars");
@@ -104,11 +121,11 @@ export default function Login() {
     });
   }, []);
 
-  const handleLogin = async () => {
+  const handleRegistration = async () => {
     if (email && password) {
-      const loginPromise = account.create(ID.unique(), email, password);
+      const accountCreationPromise = account.create(ID.unique(), email, password);
       toast.promise(
-        loginPromise,
+        accountCreationPromise,
         {
           pending: "Creating account...",
           success: "Account created successfully!",
@@ -117,7 +134,7 @@ export default function Login() {
       ).then(() => {
         console.log("Navigating to dashboard");
         // Add your navigation logic here, for example:
-        // navigate("/dashboard");
+        navigate("/dashboard");
       }).catch(error => {
         console.error("Login failed:", error);
       });
@@ -146,7 +163,7 @@ export default function Login() {
         />
         <div className="btns">
           <button>Forgot Password</button>
-          <button onClick={handleLogin}>Sign Up</button>
+          <button onClick={handleRegistration}>Create Account</button>
         </div>
         <div className="or">
           <div className="line"></div>
@@ -154,7 +171,11 @@ export default function Login() {
           <div className="line"></div>
         </div>
         <button>Sign Up With Google</button>
-        <button>Already have an account ??</button>
+        <Link to={"/login"} className="loginNavigation">
+          <button>
+          Already have an account ??
+          </button>
+        </Link>
       </div>
       <ToastContainer
         style={{ width: "500px" }}

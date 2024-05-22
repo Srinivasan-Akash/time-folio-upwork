@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.cdnfonts.com/css/budokan-rounded');
+@import url("https://fonts.googleapis.com/css2?family=Bungee&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.cdnfonts.com/css/budokan-rounded");
 
 * {
   margin: 0;
@@ -8,9 +8,36 @@
 }
 
 body {
-  background: linear-gradient(135deg,#1e1e20,#0e0e11 32%);
+  background: linear-gradient(135deg, #1e1e20, #0e0e11 32%);
 }
 
 ::selection {
   display: none;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 50px; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius: 3px; 
+
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
 }
