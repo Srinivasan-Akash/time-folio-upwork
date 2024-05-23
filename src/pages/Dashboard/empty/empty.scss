@@ -1,0 +1,23 @@
+.empty-section {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    h2 {
+        color: #fff;
+        font-size: 4rem;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+
+    h3 {
+        color: #afa8a8;
+        font-size: 2rem;
+        max-width: 800px;
+        text-align: center;
+        line-height: 1.25;
+        margin-top: .25em;
+    }
+}

@@ -10,10 +10,10 @@
 body {
   background: linear-gradient(135deg, #1e1e20, #0e0e11 32%);
 }
-
+/* 
 ::selection {
   display: none;
-}
+} */
 
 a {
   text-decoration: none;

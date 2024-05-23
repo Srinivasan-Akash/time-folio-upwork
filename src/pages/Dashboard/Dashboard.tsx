@@ -1,52 +1,33 @@
+// @ts-nocheck
 import { useEffect, useRef, useState } from "react";
 import "./dashboard.scss";
 import { account, databases } from "../../appwrite/appwrite.config";
 import { useNavigate } from "react-router-dom";
 import Loader from "../Loader/Loader";
-import { ID } from "appwrite";
-import { toast } from "react-toastify";
+import { ID, Query } from "appwrite";
+import { ToastContainer, toast } from "react-toastify";
+import Empty from "./empty/empty";
 
 export default function Dashboard() {
   const navigate = useNavigate();
+
   const [loading, setLoading] = useState(true);
-  const [ popupIsOpen, setPopupIsOpen ] = useState(false)
+  const [popupIsOpen, setPopupIsOpen] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [planetsData, setPlanetsData] = useState(null);
 
-  const planets_popup_element = useRef<HTMLElement | null>()
+  const [currentPlanet, setCurrentPlanet] = useState(null);
 
-  // async function createPlanet() {
-  //   const planet_creation_promise = databases.createDocument(import.meta.env.APPWRITE_DATABASE_ID, import.meta.env.APPWRITE_DATABASE_ID, import.meta.env.APPWRITE_COLLECTION_ID, ID.unique(), {
-
-  //   })
-  //   toast.promise(
-  //     planet_creation_promise,
-  //     {
-  //       pending: "Creating New Planet...",
-  //       success: "Planet created successfully!",
-  //       error: "Error creating account. Please try again."
-  //     }
-  //   ).catch(error => {
-  //     console.error("Login failed:", error);
-  //   });
-  // }
-
-  function openPlanetsPopup() {
-    if (!popupIsOpen) {
-      planets_popup_element.current?.classList.add("active")
-    }
-  }
-
-  function closePopup(e) {
-    if(e.target.classList[0] === "planet-popup") {
-      planets_popup_element.current?.classList.remove("active")
-    }
-  }
+  const planets_popup_element = useRef<HTMLElement | null>();
+  const planetNameInputField = useRef<HTMLInputElement | null>();
 
   useEffect(() => {
     async function getAuthStatus() {
       try {
         const user = await account.get();
-        console.log(user);
         setLoading(true);
+        setUserData(user);
+        getPlanets(user.$id);
 
         if (Object.keys(user).length === 0) {
           navigate("/login");
@@ -59,7 +40,72 @@ export default function Dashboard() {
     }
 
     getAuthStatus();
-  });
+  }, []);
+
+  async function getPlanets(userId: string) {
+    const planets = await databases.listDocuments("time-zones", "time-zones", [
+      Query.equal("userId", userId),
+    ]);
+
+    setPlanetsData(planets);
+  }
+
+  async function createPlanet() {
+    const planetName = planetNameInputField?.current.value?.trim(); // Safely get and trim value
+    if (!planetName) {
+      toast.error("Please Enter A Valid Planet Name");
+      return null;
+    }
+
+    const allowedChars = /^[a-zA-Z0-9\s]+$/;
+    if (!allowedChars.test(planetName)) {
+      toast.error("Invalid planet name. Symbols are not allowed !!");
+      return null;
+    }
+    const planet_creation_promise = databases.createDocument(
+      "time-zones",
+      "time-zones",
+      ID.unique(),
+      { planetName, userId: userData.$id }
+    );
+    toast
+      .promise(planet_creation_promise, {
+        pending: "Creating New Planet...",
+        success: "Planet created successfully!",
+        error: "Planet Creation Failed. Please try again.",
+      })
+      .then(() => {
+        planets_popup_element.current?.classList.remove("active");
+        getPlanets(userData.$id);
+      })
+      .catch((error) => {
+        console.error("Planet Creation Failed", error);
+      });
+  }
+
+  async function openPlanet(documentId, planetName) {
+    setCurrentPlanet({planetName: planetName});
+
+    const currentPlanet = await databases.getDocument(
+      "time-zones",
+      "time-zones",
+      documentId
+    );
+    setCurrentPlanet(currentPlanet);
+    console.log(currentPlanet, planetName)
+  }
+
+  function openPlanetsPopup() {
+    if (!popupIsOpen) {
+      planets_popup_element.current?.classList.add("active");
+    }
+  }
+
+  function closePopup(e: any) {
+    if (e.target.classList[0] === "planet-popup") {
+      planets_popup_element.current?.classList.remove("active");
+    }
+  }
 
   return (
     <>
@@ -67,13 +113,21 @@ export default function Dashboard() {
         <Loader></Loader>
       ) : (
         <div className="dashboard">
-          <div className="planet-popup" ref={planets_popup_element} onClick={closePopup}>
+          <div
+            className="planet-popup"
+            ref={planets_popup_element}
+            onClick={closePopup}
+          >
             <div className="modal">
               <h2>Create A New Planet</h2>
               <h3>A Planet Can Have Multiple Set Of Timezones</h3>
               <div className="form">
-                <input type="text" placeholder="Enter Planet Name" />
-                <button>CREATE</button>
+                <input
+                  type="text"
+                  ref={planetNameInputField}
+                  placeholder="Enter Planet Name"
+                />
+                <button onClick={createPlanet}>CREATE</button>
               </div>
             </div>
           </div>
@@ -101,31 +155,36 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((el) => {
-                return (
-                  <div className="planet">
-                    <h3>Digital Ocean Team</h3>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      className="lucide lucide-trash-2"
+              {planetsData &&
+                planetsData.documents.map((el, index) => {
+                  return (
+                    <div
+                      className="planet"
+                      key={index}
+                      onClick={() => openPlanet(el.$id, el.planetName)}
                     >
-                      <path d="M3 6h18" />
-                      <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                      <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                      <line x1="10" x2="10" y1="11" y2="17" />
-                      <line x1="14" x2="14" y1="11" y2="17" />
-                    </svg>
-                  </div>
-                );
-              })}
+                      <h3>{el.planetName}</h3>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        className="lucide lucide-trash-2"
+                      >
+                        <path d="M3 6h18" />
+                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                        <line x1="10" x2="10" y1="11" y2="17" />
+                        <line x1="14" x2="14" y1="11" y2="17" />
+                      </svg>
+                    </div>
+                  );
+                })}
             </div>
 
             <button>
@@ -149,35 +208,56 @@ export default function Dashboard() {
           </div>
 
           <div className="main">
-            <nav>
-              <h2>Digital Ocean Team</h2>
-              <button>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  className="lucide lucide-map-pinned"
-                >
-                  <path d="M18 8c0 4.5-6 9-6 9s-6-4.5-6-9a6 6 0 0 1 12 0" />
-                  <circle cx="12" cy="8" r="2" />
-                  <path d="M8.835 14H5a1 1 0 0 0-.9.7l-2 6c-.1.1-.1.2-.1.3 0 .6.4 1 1 1h18c.6 0 1-.4 1-1 0-.1 0-.2-.1-.3l-2-6a1 1 0 0 0-.9-.7h-3.835" />
-                </svg>
-                <h2>Add New Location</h2>
-              </button>
-            </nav>
-            <section>
-              <div className="card"></div>
-              <div className="card"></div>
-              <div className="card"></div>
-              <div className="card"></div>
-            </section>
+            {currentPlanet ? (
+              <>
+                <nav>
+                  <h2>{currentPlanet.planetName}</h2>
+                  <button>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      className="lucide lucide-map-pinned"
+                    >
+                      <path d="M18 8c0 4.5-6 9-6 9s-6-4.5-6-9a6 6 0 0 1 12 0" />
+                      <circle cx="12" cy="8" r="2" />
+                      <path d="M8.835 14H5a1 1 0 0 0-.9.7l-2 6c-.1.1-.1.2-.1.3 0 .6.4 1 1 1h18c.6 0 1-.4 1-1 0-.1 0-.2-.1-.3l-2-6a1 1 0 0 0-.9-.7h-3.835" />
+                    </svg>
+                    <h2>Add New Location</h2>
+                  </button>
+                </nav>
+                <section>
+                  <div className="card"></div>
+                  <div className="card"></div>
+                  <div className="card"></div>
+                  <div className="card"></div>
+                </section>
+              </>
+            ) : (
+              <div className="empty">
+                <Empty></Empty>
+              </div>
+            )}
           </div>
+          <ToastContainer
+            style={{ width: "500px" }}
+            position="bottom-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+          />
         </div>
       )}
     </>
