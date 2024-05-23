@@ -1,12 +1,45 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./dashboard.scss";
-import { account } from "../../appwrite/appwrite.config";
+import { account, databases } from "../../appwrite/appwrite.config";
 import { useNavigate } from "react-router-dom";
 import Loader from "../Loader/Loader";
+import { ID } from "appwrite";
+import { toast } from "react-toastify";
 
 export default function Dashboard() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [ popupIsOpen, setPopupIsOpen ] = useState(false)
+
+  const planets_popup_element = useRef<HTMLElement | null>()
+
+  // async function createPlanet() {
+  //   const planet_creation_promise = databases.createDocument(import.meta.env.APPWRITE_DATABASE_ID, import.meta.env.APPWRITE_DATABASE_ID, import.meta.env.APPWRITE_COLLECTION_ID, ID.unique(), {
+
+  //   })
+  //   toast.promise(
+  //     planet_creation_promise,
+  //     {
+  //       pending: "Creating New Planet...",
+  //       success: "Planet created successfully!",
+  //       error: "Error creating account. Please try again."
+  //     }
+  //   ).catch(error => {
+  //     console.error("Login failed:", error);
+  //   });
+  // }
+
+  function openPlanetsPopup() {
+    if (!popupIsOpen) {
+      planets_popup_element.current?.classList.add("active")
+    }
+  }
+
+  function closePopup(e) {
+    if(e.target.classList[0] === "planet-popup") {
+      planets_popup_element.current?.classList.remove("active")
+    }
+  }
 
   useEffect(() => {
     async function getAuthStatus() {
@@ -34,9 +67,19 @@ export default function Dashboard() {
         <Loader></Loader>
       ) : (
         <div className="dashboard">
+          <div className="planet-popup" ref={planets_popup_element} onClick={closePopup}>
+            <div className="modal">
+              <h2>Create A New Planet</h2>
+              <h3>A Planet Can Have Multiple Set Of Timezones</h3>
+              <div className="form">
+                <input type="text" placeholder="Enter Planet Name" />
+                <button>CREATE</button>
+              </div>
+            </div>
+          </div>
           <div className="sidebar">
             <div className="planets">
-              <div className="options">
+              <div className="options" onClick={openPlanetsPopup}>
                 <h2>Create Planets</h2>
                 <div>
                   <svg
@@ -129,7 +172,6 @@ export default function Dashboard() {
               </button>
             </nav>
             <section>
-              <div className="card"></div>
               <div className="card"></div>
               <div className="card"></div>
               <div className="card"></div>
