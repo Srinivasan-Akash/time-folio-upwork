@@ -15,8 +15,7 @@ import "./empty/empty.scss";
 import { cityMapping, lookupViaCity } from "city-timezones";
 import { CityData } from "city-timezones";
 import Clock from "./Clock/Clock";
-import Tilt from 'react-parallax-tilt';
-
+import Tilt from "react-parallax-tilt";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -30,17 +29,14 @@ export default function Dashboard() {
   const [city, setCity] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [selectedCity, setSelectedCity] = useState(null);
-  const [timeZonesArray, setTimeZonesArray] = useState([]);
 
   const planets_popup_element = useRef<HTMLElement | null>();
   const planetNameInputField = useRef<HTMLInputElement | null>();
 
   useEffect(() => {
-    console.log(timeZonesArray);
     async function getAuthStatus() {
       try {
         const user = await account.get();
-        setLoading(true);
         setUserData(user);
         getPlanets(user.$id);
 
@@ -50,7 +46,8 @@ export default function Dashboard() {
       } catch (err) {
         console.log(err);
       } finally {
-        setLoading(false); // Set loading to false after fetching user
+        setLoading(false);
+        // Set loading to false after fetching user
       }
     }
 
@@ -68,26 +65,74 @@ export default function Dashboard() {
         )
         .slice(0, 5); // Limit to first 5 matches
       setSuggestions(filteredCities);
-      console.log(filteredCities);
     } else {
       setSuggestions([]);
     }
   };
 
+  async function deleteCard(id, documentId) {
+    // Parse the current time zones and filter out the one to delete
+    const updatedTimeZones = JSON.parse(currentPlanet.timeZones).filter(
+      (timezone) => timezone.id !== id
+    );
+
+    // Convert the updated array back to JSON
+    const updatedTimeZonesJson = JSON.stringify(updatedTimeZones);
+
+    // Update the state with the new time zones
+    setCurrentPlanet((prev) => ({
+      ...prev,
+      timeZones: updatedTimeZonesJson,
+    }));
+
+    // Update the document in the database
+    const promise = databases.updateDocument(
+      "time-zones",
+      "time-zones",
+      documentId,
+      { timeZones: updatedTimeZonesJson }
+    );
+
+    // Provide feedback to the user
+    toast.promise(promise, {
+      pending: "Deleting time zone...",
+      success: "Time zone deleted successfully!",
+      error: "Failed to delete time zone. Please try again.",
+    });
+
+    // Handle promise if needed
+    try {
+      await promise;
+      console.log("Document updated successfully");
+    } catch (error) {
+      console.error("Error updating document:", error);
+    }
+  }
+
   const addTimeZone = (newCity) => {
-   console.log( selectedCity)
     const newTimeZone = {
-      city: selectedCity.city,
-      country: selectedCity.country.length >= 8 ? selectedCity.iso3 : selectedCity.country,
-      timezone: selectedCity.timezone, // Assuming selectedCity has a timezone property
+      address:
+        selectedCity.country.length >= 8
+          ? selectedCity.city + ", " + selectedCity.iso3
+          : selectedCity.city + ", " + selectedCity.country,
+      timezone: selectedCity.timezone,
+      id: ID.unique(),
     };
 
-    // Update state with new time zone
-    setTimeZonesArray((prevArray) => [...prevArray, newTimeZone]);
+    setCurrentPlanet((prevPlanet) => {
+      const timeZonesArray = JSON.parse(prevPlanet.timeZones);
+      const updatedTimeZones = [...timeZonesArray, newTimeZone];
+      return {
+        ...prevPlanet,
+        timeZones: JSON.stringify(updatedTimeZones),
+      };
+    });
 
     // Update document in the database
-    const updatedTimeZones = [...timeZonesArray, newTimeZone];
-    console.log(updatedTimeZones)
+    const updatedTimeZones = [
+      ...JSON.parse(currentPlanet.timeZones),
+      newTimeZone,
+    ];
     const promise = databases.updateDocument(
       "time-zones",
       "time-zones",
@@ -108,16 +153,15 @@ export default function Dashboard() {
     promise
       .then(() => {
         console.log("Document updated successfully");
+        // Ensure state is updated after successful database update
+        openPlanet(currentPlanet.$id, currentPlanet.planetName);
       })
       .catch((error) => {
         console.error("Error updating document:", error);
       });
-    openPlanet(currentPlanet.$id, currentPlanet.planetName);
-    // APWRITE UPLOAD LOGIC TODO:
   };
 
   const handleSelectCity = (city) => {
-    console.log(city);
     setCity(city.city);
     setSuggestions([]);
     setSelectedCity(city);
@@ -173,7 +217,6 @@ export default function Dashboard() {
       documentId
     );
     setCurrentPlanet(currentPlanet);
-    console.log(currentPlanet, planetName);
   }
 
   function openPlanetsPopup() {
@@ -343,24 +386,29 @@ export default function Dashboard() {
                     </div>
                   </nav>
                   <section>
-                    {currentPlanet.timeZones ? (
-                      JSON.parse(currentPlanet.timeZones).map((item, index) => {
-                        console.log((item))
-                        return (
-                            <Clock
-                          key={index}
-                          timezone={item.timezone}
-                          address={item.city + ", " + item.country}
-                        />                          
-                        );
-                      })
-                    ) : (
-                      [0, 1, 3].map((item) => {
-                        return (
-                          <Skeleton className="card-skeleton" />
-                        );
-                      })
-                    )}
+                    {currentPlanet.timeZones
+                      ? JSON.parse(currentPlanet.timeZones).map(
+                          (item, index) => {
+                            console.log(item, "BOO");
+                            return (
+                              <Clock
+                                key={index}
+                                timezone={item.timezone}
+                                address={item.address}
+                                allTimezones={JSON.parse(
+                                  currentPlanet.timeZones
+                                )}
+                                id={item.id}
+                                deleteCard={deleteCard}
+                                documentId={currentPlanet.$id}
+                                onClick={() => alert("HI")}
+                              />
+                            );
+                          }
+                        )
+                      : [0, 1, 3].map((item) => {
+                          return <Skeleton className="card-skeleton" />;
+                        })}
                   </section>
                 </>
               ) : (

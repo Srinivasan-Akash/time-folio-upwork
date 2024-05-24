@@ -213,7 +213,7 @@ margin: auto;
         padding: 2em;
         display: flex;
         gap: 1em;
-        overflow-x: hidden;
+        overflow-x: scroll;
 
         .card {
             height: 100%;
