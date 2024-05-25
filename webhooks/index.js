@@ -1,16 +1,19 @@
 const crypto = require('crypto');
+const fetch = require('node-fetch');
 
-module.exports = async function ({req, res, log, error}) {
+module.exports = async function (req, res) {
     try {
+        // Parse the request body (assuming it's JSON)
+        const body = JSON.parse(req.payload);
+
         // Catch the event type
         const eventType = req.headers['x-event-name'];
-        const body = req.body;
 
         // Check signature
         const secret = process.env.LEMON_SQUEEZY_WEBHOOK_SIGNATURE;
         const hmac = crypto.createHmac('sha256', secret);
         const digest = Buffer.from(
-            hmac.update(req.rawBody).digest('hex'),
+            hmac.update(req.payload).digest('hex'),
             'utf8'
         );
         const signature = Buffer.from(req.headers['x-signature'] || '', 'utf8');
@@ -25,11 +28,20 @@ module.exports = async function ({req, res, log, error}) {
         if (eventType === 'order_created') {
             const userId = body.meta.custom_data.user_id;
             const isSuccessful = body.data.attributes.status === 'paid';
+            // Perform your logic based on the event and user ID here
         }
 
-        res.json({ message: 'Webhook received' });
+        return {
+            statusCode: 200,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: 'Webhook received' })
+        };
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: 'Server error' });
+        return {
+            statusCode: 500,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: 'Server error' })
+        };
     }
 };
