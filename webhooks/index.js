@@ -21,7 +21,7 @@ module.exports = async function (req, res) {
             throw new Error('Invalid signature.');
         }
 
-        console.log(body);
+        context.log(body);
 
         // Logic according to event
         if (eventType === 'order_created') {
@@ -36,7 +36,7 @@ module.exports = async function (req, res) {
             body: JSON.stringify({ message: 'Webhook received' })
         };
     } catch (err) {
-        console.error(err);
+        context.error(err);
         return {
             statusCode: 500,
             headers: { 'Content-Type': 'application/json' },
