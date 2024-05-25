@@ -1,4 +1,4 @@
-const { Client, Users } = require('node-appwrite');
+const { Client, Users, Query } = require('node-appwrite');
 const crypto = require('crypto');
 
 module.exports = async (context) => {
@@ -51,7 +51,7 @@ module.exports = async (context) => {
 
     try {
       // Search for the user by email
-      const searchResult await users.list([Query.equal("email", ["qa.sixsigma@gmail.com"])	]);
+      const searchResult = await users.list([Query.equal("email", [userEmail])	]);
       if (!searchResult || searchResult.users.length === 0) {
         context.error(`User with email ${userEmail} not found.`);
         return res.json({ success: false }, 404);
@@ -60,7 +60,7 @@ module.exports = async (context) => {
       // Update user labels
       const user = searchResult.users[0];
       const updatedLabels = [...new Set([...(user.labels || []), 'pro'])];
-      await users.update(user.$id, { labels: updatedLabels });
+      await users.updateLabels(user.$id, updatedLabels)
       context.log(`Added "pro" label to user ${user.$id}.`);
 
       return res.json({ success: true });
