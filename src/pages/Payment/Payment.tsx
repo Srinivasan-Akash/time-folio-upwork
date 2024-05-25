@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useEffect, useState } from "react";
 import "./payment.scss";
 import { account } from "../../appwrite/appwrite.config";

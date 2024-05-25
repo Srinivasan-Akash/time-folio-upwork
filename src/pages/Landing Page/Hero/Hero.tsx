@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { World } from "../Globe/Globe";
 
-import { useEffect } from "react";
 import "./hero.scss";
 import { AnimatedTooltip } from "../Tooltip/Tooltip";
 

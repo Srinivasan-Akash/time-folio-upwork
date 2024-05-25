@@ -1,4 +1,3 @@
-import React from 'react'
 import loader from "./loader.json"
 import Lottie from 'lottie-react'
 import "./loader.scss"
