@@ -10,7 +10,7 @@ module.exports = async function (req, res) {
         const eventType = req.headers['x-event-name'];
 
         // Check signature
-        const secret = process.env.LEMON_SQUEEZY_WEBHOOK_SIGNATURE;
+        const secret = 'time-folio-akash';
         const hmac = crypto.createHmac('sha256', secret);
         const digest = Buffer.from(
             hmac.update(req.payload).digest('hex'),
