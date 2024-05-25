@@ -51,7 +51,7 @@ module.exports = async (context) => {
 
     try {
       // Search for the user by email
-      const searchResult = await users.list(userEmail, 1, 1, 'email', 'ASC');
+      const searchResult await users.list([Query.equal("email", ["qa.sixsigma@gmail.com"])	]);
       if (!searchResult || searchResult.users.length === 0) {
         context.error(`User with email ${userEmail} not found.`);
         return res.json({ success: false }, 404);
