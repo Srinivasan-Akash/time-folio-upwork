@@ -3,8 +3,6 @@ import "./payment.scss";
 import { account } from "../../appwrite/appwrite.config";
 import { useNavigate } from "react-router-dom";
 import Loader from "../Loader/Loader";
-import { lemonSqueezySetup } from "@lemonsqueezy/lemonsqueezy.js";
-import axios from "axios";
 
 export default function Payment() {
   const [userData, setUserData] = useState(null);
@@ -30,11 +28,11 @@ export default function Payment() {
         const user = await account.get();
         setUserData(user);
         getProducts();
-        if (Object.keys(user).length === 0) {
-          navigate("/login");
-        }
+       
       } catch (err) {
         console.log(err);
+        navigate("/login");
+
       } finally {
         setLoading(false);
       }

@@ -4,7 +4,6 @@ const crypto = require('crypto');
 module.exports = async (context) => {
   const { req, res, log, error } = context;
 
-
   // Initialize Appwrite client
   const client = new Client()
     .setEndpoint("https://cloud.appwrite.io/v1")
@@ -41,31 +40,32 @@ module.exports = async (context) => {
       return res.json({ success: false }, 401);
     }
 
-    const order = req.body;
+    const order = req.body.data.attributes;
     context.log(order);
 
-    const orderUserId = order.meta.custom_data.user_id;
-    if (!orderUserId) {
-        context.error('User ID not found in webhook payload.');
+    const userEmail = order.user_email;
+    if (!userEmail) {
+      context.error('User email not found in webhook payload.');
       return res.json({ success: false }, 400);
     }
 
     try {
-      // Fetch the user from Appwrite
-      const user = await users.get(orderUserId);
-      if (!user) {
-        context.error(`User with ID ${orderUserId} not found.`);
+      // Search for the user by email
+      const searchResult = await users.list(userEmail, 1, 1, 'email', 'ASC');
+      if (!searchResult || searchResult.users.length === 0) {
+        context.error(`User with email ${userEmail} not found.`);
         return res.json({ success: false }, 404);
       }
 
-      // Add "pro" label to the user
+      // Update user labels
+      const user = searchResult.users[0];
       const updatedLabels = [...new Set([...(user.labels || []), 'pro'])];
-      await users.update(orderUserId, { labels: updatedLabels });
-      context.log(`Added "pro" label to user ${orderUserId}.`);
+      await users.update(user.$id, { labels: updatedLabels });
+      context.log(`Added "pro" label to user ${user.$id}.`);
 
       return res.json({ success: true });
     } catch (err) {
-        context.error(`Failed to update user: ${err.message}`);
+      context.error(`Failed to update user: ${err.message}`);
       return res.json({ success: false }, 500);
     }
   } else {

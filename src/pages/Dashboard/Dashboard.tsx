@@ -43,12 +43,9 @@ export default function Dashboard() {
         const user = await account.get();
         setUserData(user);
         getPlanets(user.$id);
-
-        if (Object.keys(user).length === 0) {
-          navigate("/login");
-        }
       } catch (err) {
         console.log(err);
+        navigate("/login");
       } finally {
         setLoading(false);
         // Set loading to false after fetching user
