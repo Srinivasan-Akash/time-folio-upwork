@@ -11,9 +11,12 @@
   },
   "dependencies": {
     "@lemonsqueezy/lemonsqueezy.js": "^3.0.0",
+    "@react-three/drei": "^9.105.6",
+    "@react-three/fiber": "^8.16.6",
     "appwrite": "^14.0.1",
     "axios": "^1.7.2",
     "city-timezones": "^1.2.1",
+    "clsx": "^2.1.1",
     "crypto": "^1.0.1",
     "framer-motion": "^11.2.6",
     "lottie-react": "^2.4.0",
@@ -21,7 +24,10 @@
     "react-dom": "^18.2.0",
     "react-loading-skeleton": "^3.4.0",
     "react-router-dom": "^6.23.1",
-    "react-toastify": "^10.0.5"
+    "react-toastify": "^10.0.5",
+    "tailwind-merge": "^2.3.0",
+    "three": "^0.164.1",
+    "three-globe": "^2.31.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

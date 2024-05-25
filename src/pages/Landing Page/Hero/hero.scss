@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Paytone+One&display=swap");
+
 #particles-js {
   position: absolute;
   width: 100%;
@@ -7,35 +9,95 @@
   z-index: -1;
 }
 
+.toolTip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: -1em;
+  gap: 2em;
+  width: fit-content;
+  p {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif !important;
+    font-size: 1rem !important;
+    max-width: 125px;
+  }
+}
+
 .hero {
   height: 100vh;
+  display: flex;
+  max-width: 90rem;
+  margin: auto;
+  align-items: center;
+
+  .content {
+    width: 55%;
+  }
+
+  .globe {
+    width: 45%;
+    aspect-ratio: 1/1;
+  }
   h2 {
-    font-size: 5rem;
-    text-align: center;
-    margin: auto;
+    font-size: 3.5rem;
+    text-align: left;
+    font-family: "Paytone One";
     line-height: 1;
-    font-family: "bungee";
-    max-width: 80%;
+    letter-spacing: 2px;
+    // font-family: "bungee";
 
     color: #f8f9fb;
     /* background: linear-gradient(90deg, #de164f, #afa8a8 50%); */
     /* -webkit-background-clip: text;
           -webkit-text-fill-color: transparent; */
 
-    background: linear-gradient(90deg, #0e1619, #afa8a8 50%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    // background: linear-gradient(90deg, #0e1619, #afa8a8 50%);
+    // -webkit-background-clip: text;
+    // -webkit-text-fill-color: transparent;
 
     margin-top: 0.5em;
-    margin-bottom: .25em;
+    margin-bottom: 0.25em;
   }
 
   p {
     color: #afa8a8;
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin: auto;
-    max-width: 80%;
-    text-align: center;
-    font-family: 'budokan rounded';
+    text-align: left;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
+
+  .btns {
+    margin-top: 1em;
+    display: flex;
+    align-items: center;
+    gap: .8em;
+    button {
+      background: #28282b;
+      font-family: "Budokan Rounded";
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.5em 1em;
+      margin: 0;
+      border-radius: 5px;
+      color: #AFA8A8;
+      font-size: 1.25rem;
+      cursor: pointer;
+
+      a {
+        font-size: 18px;
+      color: #afa8a8 !important;
+      }
+  }
+
+  button:hover {
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      transition:  all .5s ease;
+  }
+
+  button:not(:hover) {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition:  all .5s ease;
+  }
   }
 }
