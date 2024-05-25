@@ -30,17 +30,18 @@ module.exports = async function (context) {
             // Perform your logic based on the event and user ID here
         }
 
-        return {
+        return context.res.send({
             statusCode: 200,
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: 'Webhook received' })
-        };
+        })
     } catch (err) {
         context.error(err);
-        return {
+        
+        return context.res.send({
             statusCode: 500,
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: 'Server error' })
-        };
+        })
     }
 };
