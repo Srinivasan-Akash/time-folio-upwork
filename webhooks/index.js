@@ -1,21 +1,21 @@
 const crypto = require('crypto');
 
-module.exports = async function (req, res) {
+module.exports = async function (context) {
     try {
         // Parse the request body (assuming it's JSON)
-        const body = JSON.parse(req.payload);
+        const body = JSON.parse(context.req.payload);
 
         // Catch the event type
-        const eventType = req.headers['x-event-name'];
+        const eventType = context.req.headers['x-event-name'];
 
         // Check signature
         const secret = 'time-folio-akash';
         const hmac = crypto.createHmac('sha256', secret);
         const digest = Buffer.from(
-            hmac.update(req.payload).digest('hex'),
+            hmac.update(context.req.payload).digest('hex'),
             'utf8'
         );
-        const signature = Buffer.from(req.headers['x-signature'] || '', 'utf8');
+        const signature = Buffer.from(context.req.headers['x-signature'] || '', 'utf8');
 
         if (!crypto.timingSafeEqual(digest, signature)) {
             throw new Error('Invalid signature.');
