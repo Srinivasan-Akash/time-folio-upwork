@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 
-module.exports = async function (req, res) {
+module.exports = async function ({req, res, log, error}) {
     try {
         // Catch the event type
         const eventType = req.headers['x-event-name'];

@@ -1,36 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { databases } from "../../../appwrite/appwrite.config";
-import { toast } from "react-toastify";
 
 interface ClockProps {
   timezone: string;
   address: string;
   id: string;
-  documentId: string;
+  documentId: any;
+  allTimezones: any;
 }
 
-const colors = [
-  "#FFD1DC", // Light Pink
-  "#FF9AA2", // Pastel Red
-  "#FFB7B2", // Light Coral
-  "#FFDAC1", // Light Orange
-  "#E2F0CB", // Light Green
-  "#B5EAD7", // Light Cyan
-  "#C7CEEA", // Light Lavender
-  "#C1C8E4", // Light Blue
-  "#B2EBF2", // Light Aqua
-  "#FFDFD3", // Light Peach
-];
 
-const getRandomColor = () => {
-  return colors[Math.floor(Math.random() * colors.length)];
-};
 
-const Clock: React.FC<ClockProps> = ({ timezone, address, deleteCard, id, documentId, allTimezones }) => {
+const Clock: React.FC<ClockProps> = ({ timezone, address, deleteCard, id, documentId, allTimezones, color }) => {
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
-  const [backgroundColor, setBackgroundColor] = useState<string>(
-    getRandomColor()
-  );
 
   useEffect(() => {
     const timerID = setInterval(() => tick(), 1000);
@@ -86,7 +67,7 @@ const Clock: React.FC<ClockProps> = ({ timezone, address, deleteCard, id, docume
 
  
   return (
-    <div className="card" style={{ backgroundColor: backgroundColor }}>
+    <div className="card" style={{ backgroundColor: color }}>
       <h3>{formatTime(currentTime, timezone)}</h3>
       <h2>{formatDate(currentTime, timezone)}</h2>
       <img

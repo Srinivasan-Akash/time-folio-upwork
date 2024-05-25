@@ -16,6 +16,7 @@ import { cityMapping, lookupViaCity } from "city-timezones";
 import { CityData } from "city-timezones";
 import Clock from "./Clock/Clock";
 import Tilt from "react-parallax-tilt";
+import { getRandomColor } from "../../utils/colors";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -29,9 +30,12 @@ export default function Dashboard() {
   const [city, setCity] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [selectedCity, setSelectedCity] = useState(null);
+  const [isSideBarOpen, setIsSideBarOpen] = useState(true);
 
   const planets_popup_element = useRef<HTMLElement | null>();
   const planetNameInputField = useRef<HTMLInputElement | null>();
+  const sidebar = useRef();
+  const mainContent = useRef();
 
   useEffect(() => {
     async function getAuthStatus() {
@@ -54,16 +58,25 @@ export default function Dashboard() {
     getAuthStatus();
   }, []);
 
+  const toggleSidebar = () => {
+    if (isSideBarOpen) {
+      sidebar.current.classList.add("hidden");
+      mainContent.current.classList.add("full-w");
+    } else {
+      sidebar.current.classList.remove("hidden");
+      mainContent.current.classList.remove("full-w");
+    }
+    setIsSideBarOpen(!isSideBarOpen);
+  };
+
   const handleChange = (e) => {
     const query = e.target.value;
     setCity(query);
 
     if (query.length > 1) {
-      const filteredCities = cityMapping
-        .filter((cityObj) =>
-          cityObj.city.toLowerCase().includes(query.toLowerCase())
-        )
-        .slice(0, 5); // Limit to first 5 matches
+      const filteredCities = cityMapping.filter((cityObj) =>
+        cityObj.city.toLowerCase().includes(query.toLowerCase())
+      );
       setSuggestions(filteredCities);
     } else {
       setSuggestions([]);
@@ -176,36 +189,41 @@ export default function Dashboard() {
   }
 
   async function createPlanet() {
-    const planetName = planetNameInputField?.current.value?.trim(); // Safely get and trim value
-    if (!planetName) {
-      toast.error("Please Enter A Valid Planet Name");
-      return null;
-    }
+    console.log(userData);
+    if (userData.labels.length === 0 && planetsData.total === 3) {
+      toast.error("Please upgrade your plan !! To create more planets");
+    } else {
+      const planetName = planetNameInputField?.current.value?.trim(); // Safely get and trim value
+      if (!planetName) {
+        toast.error("Please Enter A Valid Planet Name");
+        return null;
+      }
 
-    const allowedChars = /^[a-zA-Z0-9\s]+$/;
-    if (!allowedChars.test(planetName)) {
-      toast.error("Invalid planet name. Symbols are not allowed !!");
-      return null;
+      const allowedChars = /^[a-zA-Z0-9\s]+$/;
+      if (!allowedChars.test(planetName)) {
+        toast.error("Invalid planet name. Symbols are not allowed !!");
+        return null;
+      }
+      const planet_creation_promise = databases.createDocument(
+        "time-zones",
+        "time-zones",
+        ID.unique(),
+        { planetName, userId: userData.$id }
+      );
+      toast
+        .promise(planet_creation_promise, {
+          pending: "Creating New Planet...",
+          success: "Planet created successfully!",
+          error: "Planet Creation Failed. Please try again.",
+        })
+        .then(() => {
+          planets_popup_element.current?.classList.remove("active");
+          getPlanets(userData.$id);
+        })
+        .catch((error) => {
+          console.error("Planet Creation Failed", error);
+        });
     }
-    const planet_creation_promise = databases.createDocument(
-      "time-zones",
-      "time-zones",
-      ID.unique(),
-      { planetName, userId: userData.$id }
-    );
-    toast
-      .promise(planet_creation_promise, {
-        pending: "Creating New Planet...",
-        success: "Planet created successfully!",
-        error: "Planet Creation Failed. Please try again.",
-      })
-      .then(() => {
-        planets_popup_element.current?.classList.remove("active");
-        getPlanets(userData.$id);
-      })
-      .catch((error) => {
-        console.error("Planet Creation Failed", error);
-      });
   }
 
   async function openPlanet(documentId, planetName) {
@@ -256,7 +274,34 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
-            <div className="sidebar">
+            <div className="sidebar" ref={sidebar}>
+              <svg
+                className="collapse"
+                width="21"
+                height="106"
+                viewBox="0 0 21 106"
+                onClick={toggleSidebar}
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g clip-path="url(#clip0_367_2)">
+                  <path
+                    d="M0.5 105.5L0.5 0.499997L17.7361 15.095C19.43 16.5294 20.5 19.4615 20.5 22.6689L20.5 83.3311C20.5 86.5385 19.43 89.4706 17.7361 90.9049L0.5 105.5Z"
+                    fill="#232323"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_367_2">
+                    <rect
+                      width="105"
+                      height="20"
+                      fill="white"
+                      transform="matrix(0 -1 1 0 0.5 105.5)"
+                    />
+                  </clipPath>
+                </defs>
+              </svg>
+
               <div className="planets">
                 <div className="options" onClick={openPlanetsPopup}>
                   <h2>Create Planets</h2>
@@ -335,14 +380,18 @@ export default function Dashboard() {
               </button>
             </div>
 
-            <div className="main">
+            <div className="main" ref={mainContent}>
               {currentPlanet ? (
                 <>
                   <nav>
                     <h2>{currentPlanet.planetName}</h2>
                     <div className="form">
                       <div className="inputField">
-                        <div className="autocomplete">
+                        <div
+                          className={`autocomplete ${
+                            suggestions.length > 0 ? "show" : ""
+                          }`}
+                        >
                           {suggestions.length === 0 ? (
                             <></>
                           ) : (
@@ -402,6 +451,7 @@ export default function Dashboard() {
                                 deleteCard={deleteCard}
                                 documentId={currentPlanet.$id}
                                 onClick={() => alert("HI")}
+                                color={getRandomColor()}
                               />
                             );
                           }
