@@ -4,6 +4,7 @@ import { account } from "../../appwrite/appwrite.config";
 import { useNavigate } from "react-router-dom";
 import Loader from "../Loader/Loader";
 import { lemonSqueezySetup } from "@lemonsqueezy/lemonsqueezy.js";
+import axios from "axios";
 
 export default function Payment() {
   const [userData, setUserData] = useState(null);
@@ -58,6 +59,32 @@ export default function Payment() {
 
     getAuthStatus();
   }, []);
+
+
+  async function handleClick(storeId, productId) {
+      console.log(userData)
+      const response = await fetch("https://api.lemonsqueezy.com/v1/checkouts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${lemonSqueezyConfig.API_KEY}`
+        },
+        body: JSON.stringify({
+          data: {
+            type: "checkouts",
+            attributes: { checkout_data: { email: userData.email, custom: [userData.$id] } },
+            relationships: {
+              store: { data: { type: "stores", id: storeId.toString() } },
+              variant: { data: { type: "variants", id: productId.toString() } },
+            },
+          },
+        }),
+      });
+      
+      const checkout = await response.json();
+      window.open(checkout.data.attributes.url, "_blank");
+  
+  }
   return (
     <div className="payment-page">
       {loading === true ? (
@@ -69,7 +96,7 @@ export default function Payment() {
             <div className="container">
               <h2>{item.attributes.name} - {item.attributes.price_formatted}</h2>
               <p>{item.attributes.description}</p>
-              <a href={item.attributes.buy_now_url}>BUY NOW</a>
+              <button onClick={() => handleClick(item.attributes.store_id, "390766")}>BUY NOW</button>
             </div>
           );
         })

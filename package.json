@@ -12,7 +12,9 @@
   "dependencies": {
     "@lemonsqueezy/lemonsqueezy.js": "^3.0.0",
     "appwrite": "^14.0.1",
+    "axios": "^1.7.2",
     "city-timezones": "^1.2.1",
+    "crypto": "^1.0.1",
     "framer-motion": "^11.2.6",
     "lottie-react": "^2.4.0",
     "react": "^18.2.0",
