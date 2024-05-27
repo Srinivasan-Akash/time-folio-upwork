@@ -1,26 +1,176 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+
 .payment-page {
-    width: 100%;
+  font-family: "Montserrat", sans-serif;
+
+  h2 {
+    margin: 0;
+  }
+
+  .pro .pricing-header {
+    background-color: #26de81;
+  }
+  .pro .price-circle {
+    border: 10px solid #26de81;
+    transition: all 0.4s;
+  }
+  .pro:hover .price-circle {
+    border-width: 5px;
+  }
+
+  .business .pricing-header {
+    background-color: #a55eea;
+  }
+  .business .price-circle {
+    border: 10px solid #a55eea;
+    transition: all 0.4s;
+  }
+  .business:hover .price-circle {
+    border-width: 5px;
+  }
+ 
+
+  /* Card Themes - End */
+  .container {
+    width: fit-content;
     height: 100vh;
+    margin: auto;
     display: flex;
-    align-items: center;
+    flex-wrap: wrap;
+    gap: 2em;
     justify-content: center;
-    .container {
-        width: 30vw !important;
-        max-width: 450px;
-        min-width: 400px;
-        height: fit-content;
-        background: #232323;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 1em;
-        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7),
-          -5px -5px 10px rgba(255, 255, 255, 0.05);
-        font-family: "budokan rounded";
-        color: #fff;
+    align-items: center;
+    text-align: center;
+  }
+
+  .column {
+    width: 350px;
+    height: fit-content;
     
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        padding: 2em 1em;
+  }
+
+  .pricing-card {
+    -webkit-transition: 0.4s background-color ease;
+    -ms-transition: 0.4s background-color ease;
+    transition: 0.4s background-color ease;
+    height: fit-content;
+    padding-bottom: 2em;
+    background: #232323;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1em;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7),
+      -5px -5px 10px rgba(255, 255, 255, 0.05);
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    position: relative;
+    transition: all 0.4s;
+  }
+  .pricing-card:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+    transform: scale(1.05);
+  }
+  .pricing-card .popular {
+    position: absolute;
+    top: 0;
+    right: 5%;
+    width: auto;
+    padding: 10px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    background-color: #eb3b5a;
+    color: white;
+    font-size: 12px;
+    z-index: 1;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+  .pricing-card .badge-box {
+    padding: 0 40px;
+    margin-top: 80px;
+  }
+  .pricing-card .badge-box span {
+    display: inline-block;
+    border: 1px solid #4b7bec;
+    padding: 4px 12px;
+    border-radius: 25px;
+    overflow: hidden;
+    color: #4b7bec;
+  }
+  .pricing-card .pricing-header {
+    width: 100%;
+    height: 150px;
+    position: relative;
+    border-radius: 20px 20px 0 0;
+    -webkit-border-radius: 20px 20px 0 0;
+    -moz-border-radius: 20px 20px 0 0;
+    /*border-bottom: 20px solid $primary;*/
+    /*
+  border-radius: $radius $radius 150px 150px;
+  -webkit-border-radius: $radius $radius 150px 150px;
+  -moz-border-radius: $radius $radius 150px 150px;
+  */
+  }
+  .pricing-card .pricing-header .plan-title {
+    font-size: 24px;
+    color: white;
+    position: relative;
+    top: 25%;
+  }
+  .pricing-card .pricing-header .price-circle {
+    width: calc(33.3% - 30px);
+    width: 120px;
+    height: 120px;
+    border-radius: 100%;
+    left: calc(50% - 60px);
+    top: 60%;
+    background-color: white;
+    position: absolute;
+  }
+  .pricing-card .pricing-header .price-circle .info {
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    color: gray;
+  }
+  .pricing-card .pricing-header .price-circle .price-title {
+    display: block;
+    font-size: 28px;
+    padding: 28px 0 0;
+    font-weight: bold;
+  }
+  .pricing-card .pricing-header .price-circle .price-title small {
+    font-size: 18px;
+  }
+  .pricing-card .pricing-header h2 {
+    position: relative;
+    top: 40%;
+    color: #fff;
+  }
+  .pricing-card ul {
+    padding: 0;
+    text-align: center;
+    padding: 2em;
+  }
+  .pricing-card ul li {
+    display: block;
+    padding: 15px 0 15px 0;
+    color: #fff;
+  }
+
+  button {
+    background: #26de81;
+    font-family: "Budokan Rounded";
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0.5em 1em;
+    margin: 0;
+    width: 70%;
+    border-radius: 5px;
+    cursor: pointer;
+
+    a {
+      font-size: 18px;
+      color: #000 !important;
     }
+  }
 }

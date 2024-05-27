@@ -29,11 +29,9 @@ export default function Payment() {
         const user = await account.get();
         setUserData(user);
         getProducts();
-       
       } catch (err) {
         console.log(err);
         navigate("/login");
-
       } finally {
         setLoading(false);
       }
@@ -59,46 +57,116 @@ export default function Payment() {
     getAuthStatus();
   }, []);
 
-
   async function handleClick(storeId, productId) {
-      console.log(userData)
-      const response = await fetch("https://api.lemonsqueezy.com/v1/checkouts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${lemonSqueezyConfig.API_KEY}`
-        },
-        body: JSON.stringify({
-          data: {
-            type: "checkouts",
-            attributes: { checkout_data: { email: userData.email, custom: [userData.$id] } },
-            relationships: {
-              store: { data: { type: "stores", id: storeId.toString() } },
-              variant: { data: { type: "variants", id: productId.toString() } },
-            },
+    console.log(userData);
+    const response = await fetch("https://api.lemonsqueezy.com/v1/checkouts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${lemonSqueezyConfig.API_KEY}`,
+      },
+      body: JSON.stringify({
+        data: {
+          type: "checkouts",
+          attributes: {
+            checkout_data: { email: userData.email, custom: [userData.$id] },
           },
-        }),
-      });
-      
-      const checkout = await response.json();
-      window.open(checkout.data.attributes.url, "_blank");
-  
+          relationships: {
+            store: { data: { type: "stores", id: storeId.toString() } },
+            variant: { data: { type: "variants", id: productId.toString() } },
+          },
+        },
+      }),
+    });
+
+    const checkout = await response.json();
+    window.open(checkout.data.attributes.url, "_blank");
   }
   return (
     <div className="payment-page">
       {loading === true ? (
         <Loader></Loader>
       ) : (
-        products.map((item: any) => {
-          console.log(item);
-          return (
-            <div className="container">
-              <h2>{item.attributes.name} - {item.attributes.price_formatted}</h2>
-              <p>{item.attributes.description}</p>
-              <button onClick={() => handleClick(item.attributes.store_id, "390766")}>BUY NOW</button>
-            </div>
-          );
-        })
+        <div class="container">
+          {products.map((item: any) => {
+            return (
+              <>
+                <div class="column">
+                  <div class="pricing-card pro">
+                    <div class="popular">POPULAR</div>
+                    <div class="pricing-header">
+                      <span class="plan-title">PRO PLAN</span>
+                      <div class="price-circle">
+                        <span class="price-title">
+                          <small>$</small>
+                          <span>2.00</span>
+                        </span>
+                        <span class="info">/ Month</span>
+                      </div>
+                    </div>
+                    <div class="badge-box">
+                      <span>Save 8%</span>
+                    </div>
+                    <ul>
+                      <li>
+                        <strong>3+</strong> Planets
+                      </li>
+                      <li>
+                        <strong>3+</strong> Timezones or locations
+                      </li>
+                      <li>
+                        <strong>Cross-Device</strong> Syncing
+                      </li>
+                    </ul>
+                    <button
+                      onClick={() =>
+                        handleClick(item.attributes.store_id, "390766")
+                      }
+                    >
+                      <a href="#" class="buy-now">
+                        PROMOTE TO PRO
+                      </a>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="column">
+                  <div class="pricing-card business">
+                    <div class="pricing-header">
+                      <span class="plan-title">FREE PLAN</span>
+                      <div class="price-circle">
+                        <span class="price-title">
+                          <small>$</small>
+                          <span>0.00</span>
+                        </span>
+                        <span class="info">/ Month</span>
+                      </div>
+                    </div>
+                    <div class="badge-box">
+                      <span>Save 5%</span>
+                    </div>
+                    <ul>
+                      <li>
+                        <strong>Unlimited</strong> Planets
+                      </li>
+                      <li>
+                        <strong>Infinate</strong> Timezones or locations
+                      </li>
+                      <li>
+                        <strong>Cross-Device</strong> Syncing
+                      </li>
+                    </ul>
+                    <button>
+                      <a href="#" class="buy-now">
+                        CURRENT PLAN
+                      </a>
+                    </button>
+                  </div>
+                </div>
+              </>
+            );
+          })}
+        </div>
       )}
     </div>
   );
