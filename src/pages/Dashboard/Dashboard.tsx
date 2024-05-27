@@ -129,6 +129,12 @@ export default function Dashboard() {
       id: ID.unique(),
     };
 
+    if (userData.labels.length === 0 && JSON.parse(currentPlanet.timeZones).length >= 3) {
+      toast.error("Please upgrade your plan !! To create more planets");
+      return; // Exit the function if limit is reached
+    }
+    
+
     setCurrentPlanet((prevPlanet) => {
       const timeZonesArray = JSON.parse(prevPlanet.timeZones);
       const updatedTimeZones = [...timeZonesArray, newTimeZone];
