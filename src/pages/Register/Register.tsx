@@ -162,7 +162,6 @@ export default function Register() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <div className="btns">
-          <button>Forgot Password</button>
           <button onClick={handleRegistration}>Create Account</button>
         </div>
         <div className="or">
@@ -177,6 +176,7 @@ export default function Register() {
           </button>
         </Link>
       </div>
+ 
       <ToastContainer
         style={{ width: "500px" }}
         position="bottom-center"

@@ -129,11 +129,13 @@ export default function Dashboard() {
       id: ID.unique(),
     };
 
-    if (userData.labels.length === 0 && JSON.parse(currentPlanet.timeZones).length >= 3) {
+    if (
+      userData.labels.length === 0 &&
+      JSON.parse(currentPlanet.timeZones).length >= 3
+    ) {
       toast.error("Please upgrade your plan !! To create more planets");
       return; // Exit the function if limit is reached
     }
-    
 
     setCurrentPlanet((prevPlanet) => {
       const timeZonesArray = JSON.parse(prevPlanet.timeZones);
@@ -247,7 +249,11 @@ export default function Dashboard() {
   }
 
   function closePopup(e: any) {
-    if (e.target.classList[0] === "planet-popup") {
+    console.log(e.target);
+    if (
+      e.target.classList[0] === "planet-popup" ||
+      e.target.classList[0] === "close"
+    ) {
       planets_popup_element.current?.classList.remove("active");
     }
   }
@@ -265,6 +271,22 @@ export default function Dashboard() {
               onClick={closePopup}
             >
               <div className="modal">
+                <svg
+                  className="close"
+                  onClick={closePopup}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path className="close"  d="M18 6 6 18" />
+                  <path className="close" d="m6 6 12 12" />
+                </svg>
                 <h2>Create A New Planet</h2>
                 <h3>A Planet Can Have Multiple Set Of Timezones</h3>
                 <div className="form">
@@ -363,12 +385,10 @@ export default function Dashboard() {
                     })}
               </div>
 
-              <button onClick={() => {
-                if (userData.labels.length === 0) {
-                  navigate("/payment")
-                }
-              }}>
+              <div className="btns">
                 <svg
+                  id="account"
+                  onClick={() => navigate("/account")}
                   xmlns="http://www.w3.org/2000/svg"
                   width="30"
                   height="30"
@@ -378,13 +398,40 @@ export default function Dashboard() {
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  className="lucide lucide-crown"
+                  class="lucide lucide-circle-user-round"
                 >
-                  <path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z" />
-                  <path d="M5 21h14" />
+                  <path d="M18 20a6 6 0 0 0-12 0" />
+                  <circle cx="12" cy="10" r="4" />
+                  <circle cx="12" cy="12" r="10" />
                 </svg>
-                {userData.labels[0] === "pro" ? "PREMIUM PLUS USER" : "UPGRADE TO PRO"}
-              </button>
+                <button
+                  onClick={() => {
+                    if (userData.labels.length === 0) {
+                      navigate("/payment");
+                    }
+                  }}
+                  className="upgrade"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="30"
+                    height="30"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    className="lucide lucide-crown"
+                  >
+                    <path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z" />
+                    <path d="M5 21h14" />
+                  </svg>
+                  {userData.labels[0] === "pro"
+                    ? "PREMIUM PLUS USER"
+                    : "UPGRADE"}
+                </button>
+              </div>
             </div>
 
             <div className="main" ref={mainContent}>

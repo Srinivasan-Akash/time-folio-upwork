@@ -99,13 +99,13 @@ export default function Payment() {
                       <div class="price-circle">
                         <span class="price-title">
                           <small>$</small>
-                          <span>2.00</span>
+                          <span>{item.attributes.price_formatted.replace("/month", "").replace("$", "")}</span>
                         </span>
                         <span class="info">/ Month</span>
                       </div>
                     </div>
                     <div class="badge-box">
-                      <span>Save 8%</span>
+                      <span>PRO PLAN</span>
                     </div>
                     <ul>
                       <li>
@@ -143,7 +143,7 @@ export default function Payment() {
                       </div>
                     </div>
                     <div class="badge-box">
-                      <span>Save 5%</span>
+                      <span>FREE PLAN</span>
                     </div>
                     <ul>
                       <li>

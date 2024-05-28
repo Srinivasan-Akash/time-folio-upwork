@@ -162,7 +162,6 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <div className="btns">
-          <button>Forgot Password</button>
           <button onClick={handleLogin}>Log In</button>
         </div>
         <div className="or">

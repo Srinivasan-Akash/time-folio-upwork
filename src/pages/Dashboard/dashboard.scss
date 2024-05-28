@@ -12,6 +12,37 @@
     }
   }
   .sidebar {
+    .btns {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      gap: .8em;
+      margin-top: .8em;
+      // gap: .5em;
+
+      #account {
+        width: 20%;
+        cursor: pointer;
+        // box-sizing: content-box;
+        padding: .5em;
+        height: 100% ;
+        
+        background: #F0F0F0 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7),
+        -5px -5px 10px rgba(255, 255, 255, 0.05);
+        color: #000;
+        border-radius: 10px;
+      }
+      .upgrade {
+        width: 80%;
+        height: 100%;
+      }
+    }
+
     width: 25%;
     height: 100vh;
     transition: all .5s ease;
@@ -123,7 +154,6 @@
     }
 
     button {
-      margin: 1em;
       padding: 0.8em 1em;
       width: 100%;
       border-radius: 10px;
@@ -378,6 +408,7 @@
       transition: all 0.5s ease;
       height: fit-content;
       scale: 0;
+      position: relative;
       // aspect-ratio: 16/9;
       background: #232323;
       border: 1px solid rgba(255, 255, 255, 0.08);
@@ -385,6 +416,14 @@
         -5px -5px 10px rgba(255, 255, 255, 0.05);
       border-radius: 1em;
       padding: 2em 2em;
+
+      .close {
+        color: #fff;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        cursor: pointer;
+      }
 
       h2,
       h3 {

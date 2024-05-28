@@ -5,7 +5,7 @@ import Register from "./pages/Register/Register";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Login from "./pages/Login/Login";
 import Payment from "./pages/Payment/Payment";
-
+import Account from "./pages/Account/Account";
 function App() {
   return (
     <BrowserRouter>
@@ -15,6 +15,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/payment" element={<Payment />} />
+        <Route path="/account" element={<Account />} />
       </Routes>
     </BrowserRouter>
   );

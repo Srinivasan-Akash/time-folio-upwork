@@ -56,14 +56,19 @@
       margin-top: 1em;
       width: 100%;
       button {
-        padding: 1em;
-        background: #fff;
-        border: 1px solid rgba(0, 0, 0, 0.5);
+        padding: .8em;
         border-radius: 5px;
-        color: #000;
-        font-size: 0.9rem;
-        width: 50%;
-        cursor: pointer;
+        font-family: sans-serif;
+        font-weight: 800;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5em;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7),
+          -5px -5px 10px rgba(255, 255, 255, 0.05);
+        cursor: pointer;    
       }
 
     
