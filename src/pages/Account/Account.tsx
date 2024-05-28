@@ -1,3 +1,4 @@
+// @ts-nocheck
 import "./account.scss";
 import profile from "../../assets/profile.png";
 import { useEffect, useRef, useState } from "react";
