@@ -129,6 +129,8 @@ export default function Dashboard() {
       id: ID.unique(),
     };
 
+   
+
     if (
       userData.labels.length === 0 &&
       JSON.parse(currentPlanet.timeZones).length >= 3
@@ -428,7 +430,7 @@ export default function Dashboard() {
                     <path d="M5 21h14" />
                   </svg>
                   {userData.labels[0] === "pro"
-                    ? "PREMIUM PLUS USER"
+                    ? "PREMIUM USER"
                     : "UPGRADE"}
                 </button>
               </div>

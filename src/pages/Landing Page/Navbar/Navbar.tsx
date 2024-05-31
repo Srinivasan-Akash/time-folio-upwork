@@ -12,7 +12,8 @@ export default function Navbar() {
         <Link to={"/"}>Home</Link>
         <Link to={"/payment"}>Pricing</Link>
 
-        <a href="#">Contact Us</a>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=kota.baby.work@gmail.com">Contact Us</a>
+
       </div>
 
       <div className="btns">

@@ -2,7 +2,11 @@
 
 .payment-page {
   font-family: "Montserrat", sans-serif;
-
+.btns {
+  button {
+    width: 100%;
+  }
+}
   h2 {
     margin: 0;
   }
@@ -33,7 +37,7 @@
   /* Card Themes - End */
   .container {
     width: fit-content;
-    height: 100vh;
+    height: 90vh;
     margin: auto;
     display: flex;
     flex-wrap: wrap;

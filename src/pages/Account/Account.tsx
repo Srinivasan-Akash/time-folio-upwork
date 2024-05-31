@@ -111,14 +111,15 @@ export default function Account() {
                 />
                 <input
                   type="password"
-                  placeholder="Enter New Password"
-                  ref={passwordField}
-                />
-                <input
-                  type="password"
                   placeholder="Enter Old Password"
                   ref={oldPasswordField}
                 />
+                <input
+                  type="password"
+                  placeholder="Enter New Password"
+                  ref={passwordField}
+                />
+                
                 <div className="btns">
                   <button onClick={updateInfo}>Update Information</button>
                 </div>
