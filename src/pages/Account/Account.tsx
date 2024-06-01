@@ -56,7 +56,7 @@ export default function Account() {
 
   async function updateInfo() {
     const password = passwordField.current.value;
-    const oldPassword =oldPasswordField.current.value
+    const oldPassword = oldPasswordField.current.value
 
     if (!password) {
       toast.error("Password cannot be empty.");
@@ -88,7 +88,11 @@ export default function Account() {
               <h1>Hello There !!</h1>
               <h2>{userData.email}</h2>
               <div className="btns">
-                <button>Contact Us</button>
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=kota.baby.work@gmail.com">
+                  <button>
+                    Contact Us
+
+                  </button></a>
                 <button onClick={logout}>Sign Out</button>
               </div>
             </div>
@@ -96,7 +100,7 @@ export default function Account() {
 
           <div className="changeSettings">
             <div className="left">
-                <img src={abstractImg} alt="" />
+              <img src={abstractImg} alt="" />
             </div>
 
             <div className="right">
@@ -107,7 +111,7 @@ export default function Account() {
                 <input
                   type="text"
                   placeholder="Enter Your Email"
-                    value={userData.email}
+                  value={userData.email}
                 />
                 <input
                   type="password"
@@ -119,7 +123,7 @@ export default function Account() {
                   placeholder="Enter New Password"
                   ref={passwordField}
                 />
-                
+
                 <div className="btns">
                   <button onClick={updateInfo}>Update Information</button>
                 </div>

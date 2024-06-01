@@ -514,31 +514,24 @@ export default function Dashboard() {
                     </div>
                   </nav>
                   <section>
-                    {currentPlanet.timeZones
-                      ? JSON.parse(currentPlanet.timeZones).map(
-                        (item, index) => {
-                          console.log(item, "BOO");
-                          return (
-                            <Clock
-                              key={index}
-                              timezone={item.timezone}
-                              address={item.address}
-                              allTimezones={JSON.parse(
-                                currentPlanet.timeZones
-                              )}
-                              id={item.id}
-                              deleteCard={deleteCard}
-                              documentId={currentPlanet.$id}
-                              onClick={() => alert("HI")}
-                              color={getRandomColor()}
-                            />
-                          );
-                        }
-                      )
-                      : [0, 1, 3].map((item) => {
-                        return <Skeleton className="card-skeleton" />;
-                      })}
-                  </section>
+  {currentPlanet.timeZones
+    ? JSON.parse(currentPlanet.timeZones).map((item, index) => (
+        <Clock
+          key={index}
+          timezone={item.timezone}
+          address={item.address}
+          allTimezones={JSON.parse(currentPlanet.timeZones)}
+          id={item.id}
+          deleteCard={deleteCard}
+          documentId={currentPlanet.$id}
+          color={getRandomColor()}
+        />
+      ))
+    : [0, 1, 3].map((item) => (
+        <Skeleton key={item} className="card-skeleton" />
+      ))}
+</section>
+
                 </>
               ) : (
                 <Empty popupFunc={openPlanetsPopup}></Empty>
