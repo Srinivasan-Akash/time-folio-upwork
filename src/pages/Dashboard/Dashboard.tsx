@@ -1,4 +1,6 @@
 // @ts-nocheck
+import TawkMessengerReact from '@tawk.to/tawk-messenger-react';
+
 import { useEffect, useRef, useState } from "react";
 import "./dashboard.scss";
 import { account, databases } from "../../appwrite/appwrite.config";
@@ -31,6 +33,7 @@ export default function Dashboard() {
   const [suggestions, setSuggestions] = useState([]);
   const [selectedCity, setSelectedCity] = useState(null);
   const [isSideBarOpen, setIsSideBarOpen] = useState(true);
+  const [fetchTrigger, setFetchTrigger] = useState(false); // Track fetch trigger
 
   const planets_popup_element = useRef<HTMLElement | null>();
   const planetNameInputField = useRef<HTMLInputElement | null>();
@@ -42,7 +45,7 @@ export default function Dashboard() {
       try {
         const user = await account.get();
         setUserData(user);
-        getPlanets(user.$id);
+        setFetchTrigger(prev => !prev); // Trigger fetch when user is authenticated
       } catch (err) {
         console.log(err);
         navigate("/login");
@@ -53,7 +56,13 @@ export default function Dashboard() {
     }
 
     getAuthStatus();
-  }, [planetsData]); // TODO: causes rapid change in color in the card
+  }, []); // TODO: planetsData causes rapid change in color in the card
+  useEffect(() => {
+    if (userData) {
+      getPlanets(userData.$id);
+      console.log("DEL")
+    }
+  }, [fetchTrigger]);
 
   const toggleSidebar = () => {
     if (isSideBarOpen) {
@@ -224,9 +233,10 @@ export default function Dashboard() {
           success: "Planet created successfully!",
           error: "Planet Creation Failed. Please try again.",
         })
-        .then(() => {
+        .then((res) => {
+          setCurrentPlanet(res)
           planets_popup_element.current?.classList.remove("active");
-          getPlanets(userData.$id);
+          setFetchTrigger(prev => !prev); // Trigger fetch after creating a planet
         })
         .catch((error) => {
           console.error("Planet Creation Failed", error);
@@ -243,9 +253,8 @@ export default function Dashboard() {
         success: "Time zone deleted successfully!",
         error: "Failed to delete time zone. Please try again.",
       });
-      getPlanets(userData.$id)
-      
-
+      setFetchTrigger(prev => !prev); // Trigger fetch after deleting a planet
+      setCurrentPlanet(null)
       return;
     } else {
       setCurrentPlanet({ planetName: planetName });
@@ -610,6 +619,9 @@ export function Empty({ popupFunc }) {
           </div>
         </div>
       </div>
+      <TawkMessengerReact
+      propertyId="6659af20981b6c564776c1d3"
+      widgetId="1hv7586n0" />
     </div>
   );
 }
