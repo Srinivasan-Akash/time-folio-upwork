@@ -53,7 +53,7 @@ export default function Dashboard() {
     }
 
     getAuthStatus();
-  }, []);
+  }, [planetsData]); // TODO: causes rapid change in color in the card
 
   const toggleSidebar = () => {
     if (isSideBarOpen) {
@@ -119,6 +119,7 @@ export default function Dashboard() {
     }
   }
 
+
   const addTimeZone = (newCity) => {
     const newTimeZone = {
       address:
@@ -129,7 +130,7 @@ export default function Dashboard() {
       id: ID.unique(),
     };
 
-   
+
 
     if (
       userData.labels.length === 0 &&
@@ -233,15 +234,29 @@ export default function Dashboard() {
     }
   }
 
-  async function openPlanet(documentId, planetName) {
-    setCurrentPlanet({ planetName: planetName });
+  async function openPlanet(e, documentId, planetName) {
+    if (e.target.classList.contains('delete')) {
+      console.log('Delete action detected');
+      const promise = databases.deleteDocument("time-zones", "time-zones", documentId)
+      toast.promise(promise, {
+        pending: "Deleting time zone...",
+        success: "Time zone deleted successfully!",
+        error: "Failed to delete time zone. Please try again.",
+      });
+      getPlanets(userData.$id)
+      
 
-    const currentPlanet = await databases.getDocument(
-      "time-zones",
-      "time-zones",
-      documentId
-    );
-    setCurrentPlanet(currentPlanet);
+      return;
+    } else {
+      setCurrentPlanet({ planetName: planetName });
+
+      const currentPlanet = await databases.getDocument(
+        "time-zones",
+        "time-zones",
+        documentId
+      );
+      setCurrentPlanet(currentPlanet);
+    }
   }
 
   function openPlanetsPopup() {
@@ -286,7 +301,7 @@ export default function Dashboard() {
                   stroke-linecap="round"
                   stroke-linejoin="round"
                 >
-                  <path className="close"  d="M18 6 6 18" />
+                  <path className="close" d="M18 6 6 18" />
                   <path className="close" d="m6 6 12 12" />
                 </svg>
                 <h2>Create A New Planet</h2>
@@ -354,37 +369,37 @@ export default function Dashboard() {
 
                 {planetsData
                   ? planetsData.documents.map((el, index) => {
-                      return (
-                        <div
-                          className="planet"
-                          key={index}
-                          onClick={() => openPlanet(el.$id, el.planetName)}
+                    return (
+                      <div
+                        className="planet"
+                        key={index}
+                        onClick={(e) => openPlanet(e, el.$id, el.planetName)}
+                      >
+                        <h3>{el.planetName}</h3>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          className="delete"
                         >
-                          <h3>{el.planetName}</h3>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            className="lucide lucide-trash-2"
-                          >
-                            <path d="M3 6h18" />
-                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                            <line x1="10" x2="10" y1="11" y2="17" />
-                            <line x1="14" x2="14" y1="11" y2="17" />
-                          </svg>
-                        </div>
-                      );
-                    })
+                          <path d="M3 6h18" className="delete" />
+                          <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" className="delete" />
+                          <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" className="delete" />
+                          <line x1="10" x2="10" y1="11" y2="17" className="delete" />
+                          <line x1="14" x2="14" y1="11" y2="17" className="delete" />
+                        </svg>
+                      </div>
+                    );
+                  })
                   : [0, 1, 2, 3].map((el) => {
-                      return <Skeleton className="shadow"></Skeleton>;
-                    })}
+                    return <Skeleton className="shadow"></Skeleton>;
+                  })}
               </div>
 
               <div className="btns">
@@ -444,9 +459,8 @@ export default function Dashboard() {
                     <div className="form">
                       <div className="inputField">
                         <div
-                          className={`autocomplete ${
-                            suggestions.length > 0 ? "show" : ""
-                          }`}
+                          className={`autocomplete ${suggestions.length > 0 ? "show" : ""
+                            }`}
                         >
                           {suggestions.length === 0 ? (
                             <></>
@@ -493,28 +507,28 @@ export default function Dashboard() {
                   <section>
                     {currentPlanet.timeZones
                       ? JSON.parse(currentPlanet.timeZones).map(
-                          (item, index) => {
-                            console.log(item, "BOO");
-                            return (
-                              <Clock
-                                key={index}
-                                timezone={item.timezone}
-                                address={item.address}
-                                allTimezones={JSON.parse(
-                                  currentPlanet.timeZones
-                                )}
-                                id={item.id}
-                                deleteCard={deleteCard}
-                                documentId={currentPlanet.$id}
-                                onClick={() => alert("HI")}
-                                color={getRandomColor()}
-                              />
-                            );
-                          }
-                        )
+                        (item, index) => {
+                          console.log(item, "BOO");
+                          return (
+                            <Clock
+                              key={index}
+                              timezone={item.timezone}
+                              address={item.address}
+                              allTimezones={JSON.parse(
+                                currentPlanet.timeZones
+                              )}
+                              id={item.id}
+                              deleteCard={deleteCard}
+                              documentId={currentPlanet.$id}
+                              onClick={() => alert("HI")}
+                              color={getRandomColor()}
+                            />
+                          );
+                        }
+                      )
                       : [0, 1, 3].map((item) => {
-                          return <Skeleton className="card-skeleton" />;
-                        })}
+                        return <Skeleton className="card-skeleton" />;
+                      })}
                   </section>
                 </>
               ) : (
