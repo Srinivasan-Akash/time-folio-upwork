@@ -18,7 +18,7 @@ export default function Navbar() {
 
       <div className="btns">
         <button>
-          <Link to="/register">Get Started</Link>
+          <Link to="/dashboard">Get Started</Link>
         </button>
       </div>
     </nav>

@@ -3,8 +3,11 @@ import { World } from "../Globe/Globe";
 
 import "./hero.scss";
 import { AnimatedTooltip } from "../Tooltip/Tooltip";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Hero() {
+  const navigate = useNavigate()
   const globeConfig = {
     pointSize: 4,
     globeColor: "#062056",
@@ -425,9 +428,9 @@ export default function Hero() {
   return (
     <div className="hero">
       <div className="content">
-      <div className="toolTip">
+        <div className="toolTip">
           <AnimatedTooltip items={people} />
-          <p>About 1000+ Happy Customers</p>
+          <p>About 10+ Happy Customers</p>
         </div>
         {/* <h2>Solve Timezone issues with TimeFolio</h2> */}
         <h2>SOLVE TIMEZONE ISSUES WITH TIMEFOLIO</h2>
@@ -439,10 +442,10 @@ export default function Hero() {
         </p>
 
         <div className="btns">
-          <button>Get Started</button>
-          <button>Watch Tutorials</button>
+          <button onClick={() => navigate("/dashboard")} >Get Started</button>
+          <button onClick={() => toast("⚒ We are working on this")}>Watch Tutorials</button>
         </div>
-        
+
       </div>
       <motion.div
         initial={{
@@ -462,6 +465,19 @@ export default function Hero() {
       <div className="globe">
         <World data={sampleArcs} globeConfig={globeConfig} />;
       </div>
+      <ToastContainer
+        style={{ width: "500px" }}
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   );
 }
