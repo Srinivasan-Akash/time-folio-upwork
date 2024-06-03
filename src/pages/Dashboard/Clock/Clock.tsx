@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import moment from 'moment-timezone';
 
 interface ClockProps {
@@ -8,16 +8,22 @@ interface ClockProps {
   id: string;
   documentId: any;
   allTimezones: any;
+  updateTimezoneName: any;
+  color: string;
+  name: string;  // Type changed to string
+  addGap: number;
+  deleteCard: (id: string, documentId: any) => void;
 }
 
-const Clock: React.FC<ClockProps> = ({ timezone, addGap, address, deleteCard, id, documentId, allTimezones, color }) => {
+const Clock: React.FC<ClockProps> = ({ timezone, addGap, address, deleteCard, id, documentId, allTimezones, updateTimezoneName, name, color }) => {
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
   const [daysUntilDSTChange, setDaysUntilDSTChange] = useState<number | null>(null);
   const [dstChangeType, setDSTChangeType] = useState<string | null>(null);
+  const [inputName, setInputName] = useState<string>(name);  // Initial state set to prop value
+  const nameInputField = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const timerID = setInterval(() => tick(), 1000);
-
     return () => {
       clearInterval(timerID);
     };
@@ -99,13 +105,33 @@ const Clock: React.FC<ClockProps> = ({ timezone, addGap, address, deleteCard, id
     }
   }
 
+  async function handleClick() {
+    if (nameInputField.current) {
+      const inputName = nameInputField.current.value;
+      setInputName(inputName);
+      updateTimezoneName(documentId, id, inputName);
+    }
+  }
+
   return (
     <div className="card" style={{ backgroundColor: color }}>
       <img
         src="https://img.freepik.com/premium-vector/syrmak-oyu_634064-111.jpg?size=626&ext=jpg&ga=GA1.2.659085256.1710435137&semt=ais_user_b"
+        alt="Clock Image"
       />
       <div className="header">
-        <input className="name" placeholder="Enter A Name"/>        
+        <div className="name">
+          <input
+            type="text"
+            placeholder="Enter A Name"
+            value={inputName}
+            onChange={(e) => setInputName(e.target.value)}
+            ref={nameInputField}
+          />
+          <button onClick={handleClick}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-square-pen"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z"/></svg>
+          </button>
+        </div>
         <button onClick={() => deleteCard(id, documentId)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -114,9 +140,9 @@ const Clock: React.FC<ClockProps> = ({ timezone, addGap, address, deleteCard, id
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             className="lucide lucide-trash-2"
           >
             <path d="M3 6h18" />
@@ -127,20 +153,19 @@ const Clock: React.FC<ClockProps> = ({ timezone, addGap, address, deleteCard, id
           </svg>
         </button>
       </div>
-      {  addGap > 3 ? <div className="gap"></div> : false}
-      
+      {addGap > 3 ? <div className="gap"></div> : false}
+
       <h3>{formatTime(currentTime, timezone)}</h3>
       <h2 className="date">{formatDate(currentTime, timezone)}</h2>
 
       <div className="line"></div>
-      <h4 className="address">{address} {moment.tz(timezone).format('z')}</h4>
+      <h4 className="address">{address} {"(" + moment.tz(timezone).format('z') + ")"}</h4>
       {daysUntilDSTChange !== null && (
         <h2 style={{ marginTop: ".25em" }}>
           {daysUntilDSTChange === 1
             ? `DST ${dstChangeType} tomorrow`
             : `DST ${dstChangeType} in ${daysUntilDSTChange} days!`}
         </h2>
-
       )}
     </div>
   );

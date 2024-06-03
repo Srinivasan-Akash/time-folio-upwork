@@ -139,6 +139,7 @@ export default function Dashboard() {
           : selectedCity.city + ", " + selectedCity.country,
       timezone: selectedCity.timezone,
       id: ID.unique(),
+      name: ""
     };
 
 
@@ -192,6 +193,51 @@ export default function Dashboard() {
         console.error("Error updating document:", error);
       });
   };
+
+  const updateTimezoneName = async (documentId, id, updatedName) => {
+    // Parse the current time zones and map over them to update the name
+    const updatedTimeZones = JSON.parse(currentPlanet.timeZones).map(
+      (timezone) => {
+        if (timezone.id === id) {
+          return { ...timezone, name: updatedName };
+        }
+        return timezone;
+      }
+    );
+  
+    // Convert the updated array back to JSON
+    const updatedTimeZonesJson = JSON.stringify(updatedTimeZones);
+  
+    // Update the state with the new time zones
+    setCurrentPlanet((prev) => ({
+      ...prev,
+      timeZones: updatedTimeZonesJson,
+    }));
+  
+    // Update the document in the database
+    const promise = databases.updateDocument(
+      "time-zones",
+      "time-zones",
+      documentId,
+      { timeZones: updatedTimeZonesJson }
+    );
+  
+    // Provide feedback to the user
+    toast.promise(promise, {
+      pending: "Updating time zone...",
+      success: "Time zone updated successfully!",
+      error: "Failed to update time zone. Please try again.",
+    });
+  
+    // Handle promise if needed
+    try {
+      await promise;
+      console.log("Document updated successfully");
+    } catch (error) {
+      console.error("Error updating document:", error);
+    }
+  };
+  
 
   const handleSelectCity = (city) => {
     setCity(city.city);
@@ -532,8 +578,10 @@ export default function Dashboard() {
                           address={item.address}
                           allTimezones={JSON.parse(currentPlanet.timeZones)}
                           id={item.id}
+                          name={item.name}
                           deleteCard={deleteCard}
                           documentId={currentPlanet.$id}
+                          updateTimezoneName={updateTimezoneName}
                           color={getRandomColor()}
                           addGap={array.length}
                         />
