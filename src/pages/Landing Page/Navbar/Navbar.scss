@@ -41,6 +41,10 @@
   }
 
   .btns {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    
     button {
         background: #28282b;
         font-family: "Budokan Rounded";
@@ -48,6 +52,7 @@
         border: 1px solid rgba(255, 255, 255, 0.08);
         padding: 0.5em 1em;
         margin: 0;
+        min-width: 100px;
         border-radius: 5px;
         cursor: pointer;
 

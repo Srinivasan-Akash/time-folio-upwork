@@ -58,10 +58,12 @@ export default function Dashboard() {
     getAuthStatus();
   }, []); // TODO: planetsData causes rapid change in color in the card
   useEffect(() => {
-    if (userData) {
+    setPlanetsData(null)
+    setTimeout(() => {
       getPlanets(userData.$id);
-      console.log("DEL")
-    }
+
+    }, 1000)
+    console.log("DEL")
   }, [fetchTrigger]);
 
   const toggleSidebar = () => {
@@ -246,16 +248,24 @@ export default function Dashboard() {
 
   async function openPlanet(e, documentId, planetName) {
     if (e.target.classList.contains('delete')) {
-      console.log('Delete action detected');
-      const promise = databases.deleteDocument("time-zones", "time-zones", documentId)
-      toast.promise(promise, {
-        pending: "Deleting time zone...",
-        success: "Time zone deleted successfully!",
-        error: "Failed to delete time zone. Please try again.",
-      });
-      setFetchTrigger(prev => !prev); // Trigger fetch after deleting a planet
-      setCurrentPlanet(null)
-      return;
+      // TODO: DELETE PART
+
+      if (confirm("Are you sure that you want to delete this planet ??") == true) {
+        console.log('Delete action detected');
+        const promise = databases.deleteDocument("time-zones", "time-zones", documentId)
+        toast.promise(promise, {
+          pending: "Deleting time zone...",
+          success: "Time zone deleted successfully!",
+          error: "Failed to delete time zone. Please try again.",
+        });
+        setFetchTrigger(prev => !prev); // Trigger fetch after deleting a planet
+        setCurrentPlanet(null)
+        return;
+      } else {
+        toast.info("Cancelled the deletion process")
+      }
+
+
     } else {
       setCurrentPlanet({ planetName: planetName });
 
@@ -514,23 +524,23 @@ export default function Dashboard() {
                     </div>
                   </nav>
                   <section>
-  {currentPlanet.timeZones
-    ? JSON.parse(currentPlanet.timeZones).map((item, index) => (
-        <Clock
-          key={index}
-          timezone={item.timezone}
-          address={item.address}
-          allTimezones={JSON.parse(currentPlanet.timeZones)}
-          id={item.id}
-          deleteCard={deleteCard}
-          documentId={currentPlanet.$id}
-          color={getRandomColor()}
-        />
-      ))
-    : [0, 1, 3].map((item) => (
-        <Skeleton key={item} className="card-skeleton" />
-      ))}
-</section>
+                    {currentPlanet.timeZones
+                      ? JSON.parse(currentPlanet.timeZones).map((item, index) => (
+                        <Clock
+                          key={index}
+                          timezone={item.timezone}
+                          address={item.address}
+                          allTimezones={JSON.parse(currentPlanet.timeZones)}
+                          id={item.id}
+                          deleteCard={deleteCard}
+                          documentId={currentPlanet.$id}
+                          color={getRandomColor()}
+                        />
+                      ))
+                      : [0, 1, 3].map((item) => (
+                        <Skeleton key={item} className="card-skeleton" />
+                      ))}
+                  </section>
 
                 </>
               ) : (
@@ -613,8 +623,8 @@ export function Empty({ popupFunc }) {
         </div>
       </div>
       <TawkMessengerReact
-      propertyId="6659af20981b6c564776c1d3"
-      widgetId="1hv7586n0" />
+        propertyId="6659af20981b6c564776c1d3"
+        widgetId="1hv7586n0" />
     </div>
   );
 }

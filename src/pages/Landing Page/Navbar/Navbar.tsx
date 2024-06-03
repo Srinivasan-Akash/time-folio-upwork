@@ -18,7 +18,10 @@ export default function Navbar() {
 
       <div className="btns">
         <button>
-          <Link to="/dashboard">Get Started</Link>
+          <Link to="/dashboard">Log In</Link>
+        </button>
+        <button>
+          <Link to="/register">Sign Up</Link>
         </button>
       </div>
     </nav>
