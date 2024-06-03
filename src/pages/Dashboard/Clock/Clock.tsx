@@ -90,7 +90,7 @@ const Clock: React.FC<ClockProps> = ({ timezone, addGap, address, deleteCard, id
     }
 
     const daysUntilDSTChange = nextTransition.diff(now, 'days');
-    if (daysUntilDSTChange <= 360 && daysUntilDSTChange > 0) {
+    if (daysUntilDSTChange <= 365 && daysUntilDSTChange > 0) {
       setDaysUntilDSTChange(daysUntilDSTChange);
       setDSTChangeType(isDST ? 'ends' : 'starts');
     } else {
@@ -103,12 +103,9 @@ const Clock: React.FC<ClockProps> = ({ timezone, addGap, address, deleteCard, id
     <div className="card" style={{ backgroundColor: color }}>
       <img
         src="https://img.freepik.com/premium-vector/syrmak-oyu_634064-111.jpg?size=626&ext=jpg&ga=GA1.2.659085256.1710435137&semt=ais_user_b"
-        alt=""
       />
       <div className="header">
-        <div className="name">
-          Hello
-        </div>
+        <input className="name" placeholder="Enter A Name"/>        
         <button onClick={() => deleteCard(id, documentId)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -133,10 +130,10 @@ const Clock: React.FC<ClockProps> = ({ timezone, addGap, address, deleteCard, id
       {  addGap > 3 ? <div className="gap"></div> : false}
       
       <h3>{formatTime(currentTime, timezone)}</h3>
-      <h2>{formatDate(currentTime, timezone)}</h2>
+      <h2 className="date">{formatDate(currentTime, timezone)}</h2>
 
       <div className="line"></div>
-      <h4>{address} {moment.tz(timezone).format('z')}</h4>
+      <h4 className="address">{address} {moment.tz(timezone).format('z')}</h4>
       {daysUntilDSTChange !== null && (
         <h2 style={{ marginTop: ".25em" }}>
           {daysUntilDSTChange === 1
@@ -145,9 +142,6 @@ const Clock: React.FC<ClockProps> = ({ timezone, addGap, address, deleteCard, id
         </h2>
 
       )}
-
-
-
     </div>
   );
 };
