@@ -1,7 +1,16 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat");
 
+.loading-preloader {
+  // width: 50vw !important;
+  overflow: hidden;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .payment-page {
   font-family: "Montserrat", sans-serif;
+  
 .btns {
   button {
     width: 100%;
