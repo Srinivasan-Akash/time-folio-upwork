@@ -10,7 +10,7 @@ interface ClockProps {
   allTimezones: any;
 }
 
-const Clock: React.FC<ClockProps> = ({ timezone, address, deleteCard, id, documentId, allTimezones, color }) => {
+const Clock: React.FC<ClockProps> = ({ timezone, addGap, address, deleteCard, id, documentId, allTimezones, color }) => {
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
   const [daysUntilDSTChange, setDaysUntilDSTChange] = useState<number | null>(null);
   const [dstChangeType, setDSTChangeType] = useState<string | null>(null);
@@ -75,7 +75,7 @@ const Clock: React.FC<ClockProps> = ({ timezone, address, deleteCard, id, docume
     const now = moment.tz(timezone);
     const isDST = now.isDST();
     let nextTransition;
-    
+
     if (isDST) {
       nextTransition = moment.tz(timezone).endOf('year').startOf('day');
       while (!nextTransition.isDST()) {
@@ -101,12 +101,40 @@ const Clock: React.FC<ClockProps> = ({ timezone, address, deleteCard, id, docume
 
   return (
     <div className="card" style={{ backgroundColor: color }}>
-      <h3>{formatTime(currentTime, timezone)}</h3>
-      <h2>{formatDate(currentTime, timezone)}</h2>
       <img
         src="https://img.freepik.com/premium-vector/syrmak-oyu_634064-111.jpg?size=626&ext=jpg&ga=GA1.2.659085256.1710435137&semt=ais_user_b"
         alt=""
       />
+      <div className="header">
+        <div className="name">
+          Hello
+        </div>
+        <button onClick={() => deleteCard(id, documentId)}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            className="lucide lucide-trash-2"
+          >
+            <path d="M3 6h18" />
+            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+            <line x1="10" x2="10" y1="11" y2="17" />
+            <line x1="14" x2="14" y1="11" y2="17" />
+          </svg>
+        </button>
+      </div>
+      {  addGap > 3 ? <div className="gap"></div> : false}
+      
+      <h3>{formatTime(currentTime, timezone)}</h3>
+      <h2>{formatDate(currentTime, timezone)}</h2>
+
       <div className="line"></div>
       <h4>{address} {moment.tz(timezone).format('z')}</h4>
       {daysUntilDSTChange !== null && (
@@ -115,27 +143,11 @@ const Clock: React.FC<ClockProps> = ({ timezone, address, deleteCard, id, docume
             ? `DST ${dstChangeType} tomorrow`
             : `DST ${dstChangeType} in ${daysUntilDSTChange} days!`}
         </h2>
+
       )}
-      <button onClick={() => deleteCard(id, documentId)}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          className="lucide lucide-trash-2"
-        >
-          <path d="M3 6h18" />
-          <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-          <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-          <line x1="10" x2="10" y1="11" y2="17" />
-          <line x1="14" x2="14" y1="11" y2="17" />
-        </svg>
-      </button>
+
+
+
     </div>
   );
 };

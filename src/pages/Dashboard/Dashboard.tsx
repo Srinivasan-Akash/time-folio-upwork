@@ -525,7 +525,7 @@ export default function Dashboard() {
                   </nav>
                   <section>
                     {currentPlanet.timeZones
-                      ? JSON.parse(currentPlanet.timeZones).map((item, index) => (
+                      ? JSON.parse(currentPlanet.timeZones).map((item, index, array) => (
                         <Clock
                           key={index}
                           timezone={item.timezone}
@@ -535,6 +535,7 @@ export default function Dashboard() {
                           deleteCard={deleteCard}
                           documentId={currentPlanet.$id}
                           color={getRandomColor()}
+                          addGap={array.length}
                         />
                       ))
                       : [0, 1, 3].map((item) => (
