@@ -36,9 +36,9 @@ module.exports = async (context) => {
   };
 
   if (req.method === 'POST' && req.path === '/webhook') {
-    if (!validateWebhook(context)) {
-      return res.json({ success: false }, 401);
-    }
+    // if (!validateWebhook(context)) {
+    //   return res.json({ success: false }, 401);
+    // }
 
     const order = req.body.data.attributes;
     context.log(order);
