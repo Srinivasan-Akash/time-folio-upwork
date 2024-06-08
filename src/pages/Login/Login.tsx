@@ -169,7 +169,6 @@ export default function Login() {
           <p>OR</p>
           <div className="line"></div>
         </div>
-        <button>Log In With Google</button>
         <Link to={"/register"} className="loginNavigation">
           <button>New To TimeFolio ?? Create An Account</button>
         </Link>
