@@ -67,6 +67,10 @@ export default function Dashboard() {
     console.log("DEL")
   }, [fetchTrigger]);
 
+  useEffect(() => {
+    setTimeOffset(0);
+}, [currentPlanet]);
+
   const toggleSidebar = () => {
     if (isSideBarOpen) {
       sidebar.current.classList.add("hidden");
@@ -149,7 +153,7 @@ export default function Dashboard() {
       userData.labels.length === 0 &&
       JSON.parse(currentPlanet.timeZones).length >= 3
     ) {
-      toast.error("Please upgrade your plan !! To create more planets");
+      toast.error("Please upgrade your plan !! To create more worlds");
       return; // Exit the function if limit is reached
     }
 
@@ -205,16 +209,16 @@ export default function Dashboard() {
         return timezone;
       }
     );
-  
+
     // Convert the updated array back to JSON
     const updatedTimeZonesJson = JSON.stringify(updatedTimeZones);
-  
+
     // Update the state with the new time zones
     setCurrentPlanet((prev) => ({
       ...prev,
       timeZones: updatedTimeZonesJson,
     }));
-  
+
     // Update the document in the database
     const promise = databases.updateDocument(
       "time-zones",
@@ -222,14 +226,14 @@ export default function Dashboard() {
       documentId,
       { timeZones: updatedTimeZonesJson }
     );
-  
+
     // Provide feedback to the user
     toast.promise(promise, {
       pending: "Updating time zone...",
       success: "Time zone updated successfully!",
       error: "Failed to update time zone. Please try again.",
     });
-  
+
     // Handle promise if needed
     try {
       await promise;
@@ -238,7 +242,7 @@ export default function Dashboard() {
       console.error("Error updating document:", error);
     }
   };
-  
+
 
   const handleSelectCity = (city) => {
     setCity(city.city);
@@ -257,17 +261,17 @@ export default function Dashboard() {
   async function createPlanet() {
     console.log(userData);
     if (userData.labels.length === 0 && planetsData.total === 3) {
-      toast.error("Please upgrade your plan !! To create more planets");
+      toast.error("Please upgrade your plan !! To create more worlds");
     } else {
       const planetName = planetNameInputField?.current.value?.trim(); // Safely get and trim value
       if (!planetName) {
-        toast.error("Please Enter A Valid Planet Name");
+        toast.error("Please Enter A Valid World Name");
         return null;
       }
 
       const allowedChars = /^[a-zA-Z0-9\s]+$/;
       if (!allowedChars.test(planetName)) {
-        toast.error("Invalid planet name. Symbols are not allowed !!");
+        toast.error("Invalid world name. Symbols are not allowed !!");
         return null;
       }
       const planet_creation_promise = databases.createDocument(
@@ -278,9 +282,9 @@ export default function Dashboard() {
       );
       toast
         .promise(planet_creation_promise, {
-          pending: "Creating New Planet...",
-          success: "Planet created successfully!",
-          error: "Planet Creation Failed. Please try again.",
+          pending: "Creating New World...",
+          success: "World created successfully!",
+          error: "World Creation Failed. Please try again.",
         })
         .then((res) => {
           setCurrentPlanet(res)
@@ -288,7 +292,7 @@ export default function Dashboard() {
           setFetchTrigger(prev => !prev); // Trigger fetch after creating a planet
         })
         .catch((error) => {
-          console.error("Planet Creation Failed", error);
+          console.error("World Creation Failed", error);
         });
     }
   }
@@ -297,7 +301,7 @@ export default function Dashboard() {
     if (e.target.classList.contains('delete')) {
       // TODO: DELETE PART
 
-      if (confirm("Are you sure that you want to delete this planet ??") == true) {
+      if (confirm("Are you sure that you want to delete this World ??") == true) {
         console.log('Delete action detected');
         const promise = databases.deleteDocument("time-zones", "time-zones", documentId)
         toast.promise(promise, {
@@ -370,13 +374,13 @@ export default function Dashboard() {
                   <path className="close" d="M18 6 6 18" />
                   <path className="close" d="m6 6 12 12" />
                 </svg>
-                <h2>Create A New Planet</h2>
-                <h3>A Planet Can Have Multiple Set Of Timezones</h3>
+                <h2>Create A New World</h2>
+                <h3>A World Can Have Multiple Set Of Timezones</h3>
                 <div className="form">
                   <input
                     type="text"
                     ref={planetNameInputField}
-                    placeholder="Enter Planet Name"
+                    placeholder="Enter World Name"
                   />
                   <button onClick={createPlanet}>CREATE</button>
                 </div>
@@ -412,7 +416,7 @@ export default function Dashboard() {
 
               <div className="planets">
                 <div className="options" onClick={openPlanetsPopup}>
-                  <h2>Create Planets</h2>
+                  <h2>Create World</h2>
                   <div>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -522,65 +526,71 @@ export default function Dashboard() {
                 <>
                   <nav>
                     <h2>{currentPlanet.planetName}</h2>
-                    <div className="form">
-                      <div className="inputField">
-                        <div
-                          className={`autocomplete ${suggestions.length > 0 ? "show" : ""
-                            }`}
-                        >
-                          {suggestions.length === 0 ? (
-                            <></>
-                          ) : (
-                            suggestions.map((suggestion, index) => (
-                              <h2
-                                key={index}
-                                onClick={() => handleSelectCity(suggestion)}
-                                style={{ cursor: "pointer" }}
-                              >
-                                {suggestion.city}, {suggestion.country}
-                              </h2>
-                            ))
-                          )}
+                    <div className='dual'>
+                      <div className="form">
+                        <div className="inputField">
+                          <div
+                            className={`autocomplete ${suggestions.length > 0 ? "show" : ""
+                              }`}
+                          >
+                            {suggestions.length === 0 ? (
+                              <></>
+                            ) : (
+                              suggestions.map((suggestion, index) => (
+                                <h2
+                                  key={index}
+                                  onClick={() => handleSelectCity(suggestion)}
+                                  style={{ cursor: "pointer" }}
+                                >
+                                  {suggestion.city}, {suggestion.country}
+                                </h2>
+                              ))
+                            )}
+                          </div>
+                          <input
+                            type="text"
+                            placeholder="Enter City Name"
+                            value={city}
+                            onChange={handleChange}
+                          />
                         </div>
+                        <button onClick={addTimeZone}>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            className="lucide lucide-map-pinned"
+                          >
+                            <path d="M18 8c0 4.5-6 9-6 9s-6-4.5-6-9a6 6 0 0 1 12 0" />
+                            <circle cx="12" cy="8" r="2" />
+                            <path d="M8.835 14H5a1 1 0 0 0-.9.7l-2 6c-.1.1-.1.2-.1.3 0 .6.4 1 1 1h18c.6 0 1-.4 1-1 0-.1 0-.2-.1-.3l-2-6a1 1 0 0 0-.9-.7h-3.835" />
+                          </svg>
+                          <h2>Add Location</h2>
+                        </button>
+
+
+                      </div>
+
+                      <div className="slider">
+                        <label htmlFor="time-offset">Offset: {timeOffset} hours</label>
                         <input
-                          type="text"
-                          placeholder="Enter City Name"
-                          value={city}
-                          onChange={handleChange}
+                          type="range"
+                          id="time-offset"
+                          min="-12"
+                          max="12"
+                          value={timeOffset}
+                          onChange={(e) => setTimeOffset(parseInt(e.target.value))}
                         />
                       </div>
-                      <button onClick={addTimeZone}>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          className="lucide lucide-map-pinned"
-                        >
-                          <path d="M18 8c0 4.5-6 9-6 9s-6-4.5-6-9a6 6 0 0 1 12 0" />
-                          <circle cx="12" cy="8" r="2" />
-                          <path d="M8.835 14H5a1 1 0 0 0-.9.7l-2 6c-.1.1-.1.2-.1.3 0 .6.4 1 1 1h18c.6 0 1-.4 1-1 0-.1 0-.2-.1-.3l-2-6a1 1 0 0 0-.9-.7h-3.835" />
-                        </svg>
-                        <h2>Add Location</h2>
-                      </button>
                     </div>
 
-                    <div className="slider">
-    <label htmlFor="time-offset">Time Offset: {timeOffset} hours</label>
-    <input
-        type="range"
-        id="time-offset"
-        min="-12"
-        max="12"
-        value={timeOffset}
-        onChange={(e) => setTimeOffset(parseInt(e.target.value))}
-    />
-</div>
+
 
                   </nav>
 
@@ -644,7 +654,7 @@ export function Empty({ popupFunc }) {
         </h3>
         <div className="btns">
           <div className="options" onClick={popupFunc}>
-            <h2>Create Planets</h2>
+            <h2>Create World</h2>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
