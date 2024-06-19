@@ -34,6 +34,7 @@ export default function Dashboard() {
   const [selectedCity, setSelectedCity] = useState(null);
   const [isSideBarOpen, setIsSideBarOpen] = useState(true);
   const [fetchTrigger, setFetchTrigger] = useState(false); // Track fetch trigger
+  const [timeOffset, setTimeOffset] = useState(0); // state to track the time offset
 
   const planets_popup_element = useRef<HTMLElement | null>();
   const planetNameInputField = useRef<HTMLInputElement | null>();
@@ -568,12 +569,27 @@ export default function Dashboard() {
                         <h2>Add Location</h2>
                       </button>
                     </div>
+
+                    <div className="slider">
+    <label htmlFor="time-offset">Time Offset: {timeOffset} hours</label>
+    <input
+        type="range"
+        id="time-offset"
+        min="-12"
+        max="12"
+        value={timeOffset}
+        onChange={(e) => setTimeOffset(parseInt(e.target.value))}
+    />
+</div>
+
                   </nav>
+
                   <section>
                     {currentPlanet.timeZones
                       ? JSON.parse(currentPlanet.timeZones).map((item, index, array) => (
                         <Clock
                           key={index}
+                          timeOffset={timeOffset}
                           timezone={item.timezone}
                           address={item.address}
                           allTimezones={JSON.parse(currentPlanet.timeZones)}
@@ -621,7 +637,7 @@ export function Empty({ popupFunc }) {
     <div className="empty">
       <div className="empty-section">
         <Lottie loop={false} animationData={loader}></Lottie>
-        <h2>Hey, Select Any Planet</h2>
+        <h2>Hey, Select Any World</h2>
         <h3>
           Monitor All Your Team Mates Time Zones & become 10x more productive in
           scheduling meetings

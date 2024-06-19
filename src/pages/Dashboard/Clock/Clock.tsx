@@ -15,7 +15,7 @@ interface ClockProps {
   deleteCard: (id: string, documentId: any) => void;
 }
 
-const Clock: React.FC<ClockProps> = ({ timezone, addGap, address, deleteCard, id, documentId, allTimezones, updateTimezoneName, name, color }) => {
+const Clock: React.FC<ClockProps> = ({ timezone, addGap, timeOffset, address, deleteCard, id, documentId, allTimezones, updateTimezoneName, name, color }) => {
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
   const [daysUntilDSTChange, setDaysUntilDSTChange] = useState<number | null>(null);
   const [dstChangeType, setDSTChangeType] = useState<string | null>(null);
@@ -23,11 +23,13 @@ const Clock: React.FC<ClockProps> = ({ timezone, addGap, address, deleteCard, id
   const nameInputField = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const timerID = setInterval(() => tick(), 1000);
-    return () => {
-      clearInterval(timerID);
-    };
-  }, []);
+    const intervalId = setInterval(() => {
+        const now = new Date();
+        now.setHours(now.getHours() + timeOffset);
+        setCurrentTime(now);
+    }, 1000);
+    return () => clearInterval(intervalId);
+}, [timeOffset]);
 
   useEffect(() => {
     checkDSTChange();
@@ -160,12 +162,14 @@ const Clock: React.FC<ClockProps> = ({ timezone, addGap, address, deleteCard, id
 
       <div className="line"></div>
       <h4 className="address">{address} {"(" + moment.tz(timezone).format('z') + ")"}</h4>
+
       {daysUntilDSTChange !== null && (
         <h2 style={{ marginTop: ".25em" }}>
           {daysUntilDSTChange === 1
             ? `DST ${dstChangeType} tomorrow`
             : `DST ${dstChangeType} in ${daysUntilDSTChange} days!`}
         </h2>
+
       )}
     </div>
   );
