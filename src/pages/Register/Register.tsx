@@ -37,14 +37,14 @@ export default function Register() {
           circle: {
             amount: 18,
             layer: 3,
-            color: [157, 97, 207],
-            alpha: 0.3
+            color: [255, 255, 255],
+            alpha: 0.2
           },
           line: {
             amount: 12,
             layer: 3,
             color: [255, 255, 255],
-            alpha: 0.3
+            alpha: 0.5
           },
           speed: 0.5,
           angle: 20
@@ -117,7 +117,7 @@ export default function Register() {
           var gradient = [];
 
           gradient[0] = bctx.createRadialGradient(wWidth * 0.3, wHeight * 0.1, 0, wWidth * 0.3, wHeight * 0.1, wWidth * 0.9);
-          gradient[0].addColorStop(0, 'rgb(0, 26, 77)');
+          gradient[0].addColorStop(0, 'rgb(0, 0, 0)');
           gradient[0].addColorStop(1, 'transparent');
 
           bctx.translate(wWidth, 0);
@@ -127,7 +127,7 @@ export default function Register() {
           bctx.fillRect(0, 0, wWidth, wHeight);
 
           gradient[1] = bctx.createRadialGradient(wWidth * 0.1, wHeight * 0.1, 0, wWidth * 0.3, wHeight * 0.1, wWidth);
-          gradient[1].addColorStop(0, 'rgb(0, 150, 240)');
+          gradient[1].addColorStop(0, 'rgb(0, 0, 0)');
           gradient[1].addColorStop(0.8, 'transparent');
 
           bctx.translate(wWidth, 0);
@@ -137,7 +137,7 @@ export default function Register() {
           bctx.fillRect(0, 0, wWidth, wHeight);
 
           gradient[2] = bctx.createRadialGradient(wWidth * 0.1, wHeight * 0.5, 0, wWidth * 0.1, wHeight * 0.5, wWidth * 0.5);
-          gradient[2].addColorStop(0, 'rgb(40, 20, 105)');
+          gradient[2].addColorStop(0, 'rgb(0, 0, 0)');
           gradient[2].addColorStop(1, 'transparent');
 
           bctx.beginPath();
