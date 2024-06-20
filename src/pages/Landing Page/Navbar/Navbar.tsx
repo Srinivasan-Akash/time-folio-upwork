@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import "./Navbar.scss";
 import { useNavigate } from "react-router-dom";
 
-export default function Navbar({hideMenu}) {
+export default function Navbar({hideMenu}: {hideMenu: boolean}) {
   const navigate = useNavigate()
   return (
     <nav className="navbar-home">
