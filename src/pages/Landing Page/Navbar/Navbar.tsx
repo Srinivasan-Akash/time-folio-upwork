@@ -13,6 +13,7 @@ export default function Navbar({hideMenu}: {hideMenu: boolean}) {
       <div className="links" style={{opacity: hideMenu ? "0" : "1"}}>
         <Link to={"/"}>Home</Link>
         <Link to={"/payment"}>Pricing</Link>
+        {/* <Link to={"/payment"}>Terms & Conditions</Link> */}
 
         <a href="https://mail.google.com/mail/?view=cm&fs=1&to=kota.baby.work@gmail.com">Contact Us</a>
 
