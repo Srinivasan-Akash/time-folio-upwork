@@ -4,7 +4,7 @@ import TawkMessengerReact from '@tawk.to/tawk-messenger-react';
 import { useEffect, useRef, useState } from "react";
 import "./dashboard.scss";
 import { account, databases } from "../../appwrite/appwrite.config";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Loader from "../Loader/Loader";
 import { ID, Query } from "appwrite";
 import { ToastContainer, toast } from "react-toastify";
@@ -673,8 +673,9 @@ export function Empty({ popupFunc }) {
             </svg>
           </div>
 
+          <Link to={"/"}>
           <div className="options">
-            <h2>Take A Tour</h2>
+            <h2>Go To Home</h2>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -695,6 +696,7 @@ export function Empty({ popupFunc }) {
               <circle cx="12" cy="9" r="2" />
             </svg>
           </div>
+          </Link>
         </div>
       </div>
       <TawkMessengerReact

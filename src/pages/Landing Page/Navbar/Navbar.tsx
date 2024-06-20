@@ -5,7 +5,7 @@ export default function Navbar() {
   return (
     <nav className="navbar-home">
       <div className="logo">
-        <h2>TimeFolio</h2>
+        <h2><Link to={"/"}>TimeFolio</Link></h2>
       </div>
 
       <div className="links">
