@@ -69,7 +69,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     setTimeOffset(0);
-}, [currentPlanet]);
+  }, [currentPlanet]);
 
   const toggleSidebar = () => {
     if (isSideBarOpen) {
@@ -491,6 +491,7 @@ export default function Dashboard() {
                   <circle cx="12" cy="10" r="4" />
                   <circle cx="12" cy="12" r="10" />
                 </svg>
+
                 <button
                   onClick={() => {
                     if (userData.labels.length === 0) {
@@ -518,6 +519,11 @@ export default function Dashboard() {
                     ? "PREMIUM USER"
                     : "UPGRADE"}
                 </button>
+
+                <svg onClick={() => navigate("/")} id="account"
+
+                  xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-home"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
+
               </div>
             </div>
 
@@ -674,28 +680,28 @@ export function Empty({ popupFunc }) {
           </div>
 
           <Link to={"/"}>
-          <div className="options">
-            <h2>Go To Home</h2>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-school"
-            >
-              <path d="M14 22v-4a2 2 0 1 0-4 0v4" />
-              <path d="m18 10 4 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-8l4-2" />
-              <path d="M18 5v17" />
-              <path d="m4 6 8-4 8 4" />
-              <path d="M6 5v17" />
-              <circle cx="12" cy="9" r="2" />
-            </svg>
-          </div>
+            <div className="options">
+              <h2>Go To Home</h2>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-school"
+              >
+                <path d="M14 22v-4a2 2 0 1 0-4 0v4" />
+                <path d="m18 10 4 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-8l4-2" />
+                <path d="M18 5v17" />
+                <path d="m4 6 8-4 8 4" />
+                <path d="M6 5v17" />
+                <circle cx="12" cy="9" r="2" />
+              </svg>
+            </div>
           </Link>
         </div>
       </div>
