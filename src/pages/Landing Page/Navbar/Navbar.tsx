@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import "./Navbar.scss";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar({hideMenu}) {
+  const navigate = useNavigate()
   return (
     <nav className="navbar-home">
       <div className="logo">
@@ -17,10 +19,10 @@ export default function Navbar({hideMenu}) {
       </div>
 
       <div className="btns" style={{opacity: hideMenu ? "0" : "1"}}>
-        <button>
-          <Link to="/dashboard">Log In</Link>
+        <button onClick={() => navigate("/login")}>
+          <Link to={"/login"}>Log In</Link>
         </button>
-        <button>
+        <button onClick={() => navigate("/register")}>
           <Link to="/register">Sign Up</Link>
         </button>
       </div>
