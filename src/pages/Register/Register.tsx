@@ -7,6 +7,7 @@ import { ID } from "appwrite";
 import { useNavigate } from "react-router-dom";
 import { account } from "../../appwrite/appwrite.config";
 import { Link } from "react-router-dom";
+import Navbar from "../Landing Page/Navbar/Navbar";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -126,7 +127,7 @@ export default function Register() {
           bctx.fillRect(0, 0, wWidth, wHeight);
 
           gradient[1] = bctx.createRadialGradient(wWidth * 0.1, wHeight * 0.1, 0, wWidth * 0.3, wHeight * 0.1, wWidth);
-          gradient[1].addColorStop(0, 'rgb(0, 150, 240)');
+          gradient[1].addColorStop(0, 'rgb(0, 0, 0)');
           gradient[1].addColorStop(0.8, 'transparent');
 
           bctx.translate(wWidth, 0);
@@ -136,7 +137,7 @@ export default function Register() {
           bctx.fillRect(0, 0, wWidth, wHeight);
 
           gradient[2] = bctx.createRadialGradient(wWidth * 0.1, wHeight * 0.5, 0, wWidth * 0.1, wHeight * 0.5, wWidth * 0.5);
-          gradient[2].addColorStop(0, 'rgb(40, 20, 105)');
+          gradient[2].addColorStop(0, 'rgb(0, 0, 0)');
           gradient[2].addColorStop(1, 'transparent');
 
           bctx.beginPath();
@@ -287,6 +288,8 @@ export default function Register() {
   };
 
   return (
+   <>
+    <Navbar hideMenu={true}/>
     <div className="login-page">
       <div id="bg">
         <canvas></canvas>
@@ -338,5 +341,6 @@ export default function Register() {
         theme="dark"
       />
     </div>
+   </>
   );
 }

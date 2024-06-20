@@ -7,6 +7,7 @@ import { ID } from "appwrite";
 import { useNavigate } from "react-router-dom";
 import { account } from "../../appwrite/appwrite.config";
 import { Link } from "react-router-dom";
+import Navbar from "../Landing Page/Navbar/Navbar";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -143,49 +144,53 @@ export default function Login() {
     }
   };
   return (
-    <div className="login-page">
-      <canvas id="Stars"></canvas>
-      <div className="container">
-        <h2>Welcome back to TimeFolio</h2>
-        <h3>Boost team's productivity</h3>
+    <>
+    <Navbar hideMenu={true}></Navbar>
 
-        <input
-          type="text"
-          placeholder="Enter Your Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Enter Your Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <div className="btns">
-          <button onClick={handleLogin}>Log In</button>
-        </div>
-        <div className="or">
-          <div className="line"></div>
-          <p>OR</p>
-          <div className="line"></div>
-        </div>
-        <Link to={"/register"} className="loginNavigation">
-          <button>New To TimeFolio ?? Create An Account</button>
-        </Link>
-      </div>
-      <ToastContainer
-        style={{ width: "500px" }}
-        position="bottom-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
+<div className="login-page">
+  <canvas id="Stars"></canvas>
+  <div className="container">
+    <h2>Welcome back to TimeFolio</h2>
+    <h3>Boost team's productivity</h3>
+
+    <input
+      type="text"
+      placeholder="Enter Your Email"
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+    />
+    <input
+      type="password"
+      placeholder="Enter Your Password"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+    />
+    <div className="btns">
+      <button onClick={handleLogin}>Log In</button>
     </div>
+    <div className="or">
+      <div className="line"></div>
+      <p>OR</p>
+      <div className="line"></div>
+    </div>
+    <Link to={"/register"} className="loginNavigation">
+      <button>New To TimeFolio ?? Create An Account</button>
+    </Link>
+  </div>
+  <ToastContainer
+    style={{ width: "500px" }}
+    position="bottom-center"
+    autoClose={5000}
+    hideProgressBar={false}
+    newestOnTop={false}
+    closeOnClick
+    rtl={false}
+    pauseOnFocusLoss
+    draggable
+    pauseOnHover
+    theme="dark"
+  />
+</div>
+    </>
   );
 }
