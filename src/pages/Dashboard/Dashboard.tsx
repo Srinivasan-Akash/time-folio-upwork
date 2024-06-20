@@ -153,7 +153,7 @@ export default function Dashboard() {
       userData.labels.length === 0 &&
       JSON.parse(currentPlanet.timeZones).length >= 3
     ) {
-      toast.error("Please upgrade your plan !! To create more worlds");
+      toast.error("Please upgrade your plan !! To add more locations");
       return; // Exit the function if limit is reached
     }
 
@@ -245,7 +245,7 @@ export default function Dashboard() {
 
 
   const handleSelectCity = (city) => {
-    setCity(city.city);
+    setCity(city.city + ", " + city.country);
     setSuggestions([]);
     setSelectedCity(city);
   };

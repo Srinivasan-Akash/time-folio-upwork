@@ -20,11 +20,11 @@ export default function Navbar({hideMenu}: {hideMenu: boolean}) {
       </div>
 
       <div className="btns" style={{opacity: hideMenu ? "0" : "1"}}>
-        <button onClick={() => navigate("/login")}>
-          <Link to={"/login"}>Log In</Link>
+        <button onClick={() => navigate("/dashboard")}>
+          <Link to={"/dashboard"}>Log In</Link>
         </button>
-        <button onClick={() => navigate("/register")}>
-          <Link to="/register">Sign Up</Link>
+        <button onClick={() => navigate("/dashboard")}>
+          <Link to="/dashboard">Sign Up</Link>
         </button>
       </div>
     </nav>
