@@ -1,0 +1,14 @@
+.footer {
+    padding: 0 0 1em 2em;
+    display: flex;
+    gap: .5em;
+    a {
+        color: #8A8485;
+        font-size: 18px;
+        font-family: 'Montserrat';
+    }
+
+    a:nth-child(2) {
+        font-weight: 800;
+    }
+}
