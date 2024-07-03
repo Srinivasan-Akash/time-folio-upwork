@@ -83,14 +83,14 @@ export default function Payment() {
         window.open(checkout.data.attributes.url, "_self");
       } catch (error) {
         console.error("Error creating checkout:", error);
-      } 
+      }
     } else {
       navigate("/register");
     }
   }
   return (
     <div className="payment-page">
-          <Navbar></Navbar>
+      <Navbar></Navbar>
 
       {loading === true ? (
         <div className="loading-preloader">
@@ -99,92 +99,95 @@ export default function Payment() {
       ) : (
         <div className="container">
           {
-            products.map((item: any) => {
+            products.map((item: any, index: number) => {
               console.log(item);
-              return (
-                <>
-                  <div class="column">
-                    <div class="pricing-card business">
-                      <div class="pricing-header">
-                        <span class="plan-title">FREE PLAN</span>
-                        <div class="price-circle">
-                          <span class="price-title">
-                            <small>$</small>
-                            <span>0.00</span>
-                          </span>
-                          <span class="info">/ Month</span>
-                        </div>
-                      </div>
-                      <div class="badge-box">
-                        <span>FREE PLAN</span>
-                      </div>
-                      <ul>
-                        <li>
-                          <strong>3+</strong> Planets
-                        </li>
-                        <li>
-                          <strong>3+</strong> Timezones or locations
-                        </li>
-                        <li>
-                          <strong>Cross-Device</strong> Syncing
-                        </li>
-                      </ul>
-                      <button>
-                        <a href="#" class="buy-now">
-                          CURRENT PLAN
-                        </a>
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="column" key={item.id}>
-                    <div className="pricing-card pro">
-                      {item.attributes.price > 0 && (
-                        <div className="popular">POPULAR</div>
-                      )}
-                      <div className="pricing-header">
-                        <span className="plan-title">{item.attributes.name}</span>
-                        <div className="price-circle">
-                          <span className="price-title">
-                            <small>$</small>
-                            <span>
-                              {item.attributes.price_formatted
-                                .replace("/month", "")
-                                .replace("$", "")}
+              if (index === 1) {
+                return (
+                  <>
+                    <div class="column">
+                      <div class="pricing-card business">
+                        <div class="pricing-header">
+                          <span class="plan-title">FREE PLAN</span>
+                          <div class="price-circle">
+                            <span class="price-title">
+                              <small>$</small>
+                              <span>0.00</span>
                             </span>
-                          </span>
-                          <span className="info">/ Month</span>
+                            <span class="info">/ Month</span>
+                          </div>
                         </div>
+                        <div class="badge-box">
+                          <span>FREE PLAN</span>
+                        </div>
+                        <ul>
+                          <li>
+                            <strong>3+</strong> Planets
+                          </li>
+                          <li>
+                            <strong>3+</strong> Timezones or locations
+                          </li>
+                          <li>
+                            <strong>Cross-Device</strong> Syncing
+                          </li>
+                        </ul>
+                        <button>
+                          <a href="#" class="buy-now">
+                            CURRENT PLAN
+                          </a>
+                        </button>
                       </div>
-                      <div className="badge-box">
-                        <span>{item.attributes.name.toUpperCase()} PLAN</span>
-                      </div>
-                      <ul>
-                        <li>
-                          <strong>Unlimited</strong> Planets
-                        </li>
-                        <li>
-                          <strong>Infinate</strong> Timezones or locations
-                        </li>
-                        <li>
-                          <strong>Cross-Device</strong> Syncing
-                        </li>
-                      </ul>
-                      <button
-                        onClick={() =>
-                          handleClick(item.attributes.store_id, "390766")
-                        }
-                      >
-                        <a href="#" className="buy-now">
-                          {item.attributes.price > 0
-                            ? "PROMOTE TO PRO"
-                            : "CURRENT PLAN"}
-                        </a>
-                      </button>
                     </div>
-                  </div>
-                </>
-              );
+
+                    <div className="column" key={item.id}>
+                      <div className="pricing-card pro">
+                        {item.attributes.price > 0 && (
+                          <div className="popular">POPULAR</div>
+                        )}
+                        <div className="pricing-header">
+                          <span className="plan-title">{item.attributes.name}</span>
+                          <div className="price-circle">
+                            <span className="price-title">
+                              <small>$</small>
+                              <span>
+                                {item.attributes.price_formatted
+                                  .replace("/month", "")
+                                  .replace("$", "")}
+                              </span>
+                            </span>
+                            <span className="info">/ Month</span>
+                          </div>
+                        </div>
+                        <div className="badge-box">
+                          <span>{item.attributes.name.toUpperCase()} PLAN</span>
+                        </div>
+                        <ul>
+                          <li>
+                            <strong>Unlimited</strong> Planets
+                          </li>
+                          <li>
+                            <strong>Infinate</strong> Timezones or locations
+                          </li>
+                          <li>
+                            <strong>Cross-Device</strong> Syncing
+                          </li>
+                        </ul>
+                        <button
+                          onClick={() =>
+                            handleClick(item.attributes.store_id, "390766")
+                          }
+                        >
+                          <a href="#" className="buy-now">
+                            {item.attributes.price > 0
+                              ? "PROMOTE TO PRO"
+                              : "CURRENT PLAN"}
+                          </a>
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                );
+              }
+
             })
           }
         </div>
