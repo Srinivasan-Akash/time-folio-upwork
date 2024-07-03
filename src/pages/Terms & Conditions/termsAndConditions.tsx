@@ -1,4 +1,3 @@
-import Markdown from 'react-markdown'
 import Navbar from '../Landing Page/Navbar/Navbar'
 import "./styles.scss"
 
