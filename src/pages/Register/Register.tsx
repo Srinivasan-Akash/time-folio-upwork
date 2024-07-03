@@ -325,6 +325,8 @@ export default function Register() {
           Already have an account ??
           </button>
         </Link>
+
+        <p className="small">By continuing, you agree to the <Link to={"/terms"}>Terms & Conditions</Link> and <Link to={"/privacy&policy"}>Privacy Policy</Link></p>
       </div>
 
       <ToastContainer

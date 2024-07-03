@@ -1,0 +1,27 @@
+.privacy {
+    max-width: 50rem;
+    margin: auto;
+    background: #0E0E11;
+    padding: 1em;
+    margin-top: 5%;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1em;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7),
+      -5px -5px 10px rgba(255, 255, 255, 0.05);
+      
+      ul {
+        margin-left: 2em;
+      }
+    h1, h2, h3 {
+        font-family: 'Montserrat';
+        width: fit-content;
+        color: #fff !important;
+        margin-bottom: .25em;
+    }
+
+ 
+    p { 
+        font-family: 'budokan rounded';
+        color: #cccccc;
+    }
+}

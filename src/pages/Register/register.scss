@@ -30,6 +30,20 @@
 }
 
   .container {
+    .small {
+      font-size: .9rem;
+      width: 75%;
+      line-height: 1.5;
+      text-align: center;
+      margin-top: 1em;
+      color: #afa8a8;
+      // letter-spacing: .5px;
+
+      a {
+        color: rgb(50, 50, 239);
+        text-decoration: underline;
+      }
+    }
     
     width: 30vw !important;
     max-width: 450px;
@@ -47,7 +61,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 2em 1em;
+    padding: 1.5em 1em;
     h2 {
       font-size: 2rem;
     }

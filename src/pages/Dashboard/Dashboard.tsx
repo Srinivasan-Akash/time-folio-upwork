@@ -521,7 +521,7 @@ export default function Dashboard() {
                     <path d="M5 21h14" />
                   </svg>
                   {userData.labels[0] === "pro"
-                    ? "PREMIUM USER"
+                    ? "PREMIUM"
                     : "UPGRADE"}
                 </button>
 

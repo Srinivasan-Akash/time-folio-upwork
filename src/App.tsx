@@ -6,6 +6,9 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Login from "./pages/Login/Login";
 import Payment from "./pages/Payment/Payment";
 import Account from "./pages/Account/Account";
+import TermsAndConditions from "./pages/Terms & Conditions/termsAndConditions";
+import Privacy from "./pages/Privacy & Policy/Privacy"
+
 function App() {
   return (
     <BrowserRouter>
@@ -16,6 +19,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/account" element={<Account />} />
+        <Route path="/terms" element={<TermsAndConditions />} />
+        <Route path="/privacy&policy" element={<Privacy />} />
       </Routes>
     </BrowserRouter>
   );
