@@ -1,7 +1,9 @@
 .footer {
-    padding: 0 0 1em 2em;
+    padding: 0 0 1em 0em;
     display: flex;
     gap: .5em;
+    max-width: 90rem;
+    margin: auto;
     a {
         color: #8A8485;
         font-size: 18px;
