@@ -132,7 +132,13 @@ export default function Payment() {
                         </ul>
                         <button>
                           <a href="#" class="buy-now">
-                            CURRENT PLAN
+                            {userData.labels.map(item => {
+                              if (item.toLowerCase() === "pro") {
+                                return ("Freemium Plan")
+                              } else {
+                                return "Current Plan"
+                              }
+                            })}
                           </a>
                         </button>
                       </div>
@@ -177,9 +183,13 @@ export default function Payment() {
                           }
                         >
                           <a href="#" className="buy-now">
-                            {item.attributes.price > 0
-                              ? "PROMOTE TO PRO"
-                              : "CURRENT PLAN"}
+                            {userData.labels.map(item => {
+                              if (item.toLowerCase() === "pro") {
+                                return ("Current Plan")
+                              } else {
+                                return "Promote To Pro"
+                              }
+                            })}
                           </a>
                         </button>
                       </div>
