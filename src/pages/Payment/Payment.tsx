@@ -185,8 +185,14 @@ export default function Payment() {
                           </li>
                         </ul>
                         <button
-                          onClick={() =>
-                            handleClick(item.attributes.store_id, "390766")
+                          onClick={() => {
+                            userData.labels.map(label => {
+                              if (label.toLowerCase() !== "pro") {
+                                handleClick(item.attributes.store_id, "390766")
+                              } 
+                            })
+                          }
+                            
                           }
                         >
                           <a href="#" className="buy-now">
