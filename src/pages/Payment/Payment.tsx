@@ -101,6 +101,7 @@ export default function Payment() {
           {
             products.map((item: any, index: number) => {
               console.log(item);
+
               if (index === 1) {
                 return (
                   <>
@@ -131,15 +132,17 @@ export default function Payment() {
                           </li>
                         </ul>
                         <button>
-                          <a href="#" class="buy-now">
-                            {userData.labels.map(item => {
-                              if (item.toLowerCase() === "pro") {
-                                return ("Freemium Plan")
+                          {userData ? (
+                            userData.labels.map(label => {
+                              if (label.toLowerCase() === "pro") {
+                                return "Freemium Plan";
                               } else {
-                                return "Current Plan"
+                                return "Current Plan";
                               }
-                            })}
-                          </a>
+                            })
+                          ) : (
+                            "Current Plan"
+                          )}
                         </button>
                       </div>
                     </div>
@@ -183,13 +186,17 @@ export default function Payment() {
                           }
                         >
                           <a href="#" className="buy-now">
-                            {userData.labels.map(item => {
-                              if (item.toLowerCase() === "pro") {
-                                return ("Current Plan")
-                              } else {
-                                return "Promote To Pro"
-                              }
-                            })}
+                            {userData ? (
+                              userData.labels.map(label => {
+                                if (label.toLowerCase() === "pro") {
+                                  return "Current Plan";
+                                } else {
+                                  return "Promote To Pro";
+                                }
+                              })
+                            ) : (
+                              "Promote To Pro"
+                            )}
                           </a>
                         </button>
                       </div>
