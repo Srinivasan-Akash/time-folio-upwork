@@ -30,6 +30,7 @@ export default function Payment() {
       try {
         const user = await account.get();
         setUserData(user);
+        console.log(user)
       } catch (error) {
         console.error("Error fetching user data:", error);
         setUserData(null);
@@ -132,17 +133,20 @@ export default function Payment() {
                           </li>
                         </ul>
                         <button>
-                          {userData ? (
-                            userData.labels.map(label => {
-                              if (label.toLowerCase() === "pro") {
-                                return "Freemium Plan";
-                              } else {
-                                return "Current Plan";
-                              }
-                            })
-                          ) : (
-                            "Current Plan"
-                          )}
+                          <a href="#" className="buy-now">
+                            {userData ? (
+                              userData.labels.map(label => {
+                                if (label.toLowerCase() === "pro") {
+                                  return "Freemium Plan";
+                                } else {
+                                  return "Current Plan";
+                                }
+                              })
+                            ) : (
+                              "Current Plan"
+                            )}
+                          </a>
+
                         </button>
                       </div>
                     </div>
